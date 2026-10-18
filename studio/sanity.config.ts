@@ -5,7 +5,7 @@ import { schemaTypes } from "./schemas";
 export default defineConfig({
   name: "hey-cafe",
   title: "Hey! Cafe Content Studio",
-  projectId: process.env.SANITY_STUDIO_PROJECT_ID || "YOUR_PROJECT_ID",
+  projectId: process.env.SANITY_STUDIO_PROJECT_ID || "755fh2p2",
   dataset: process.env.SANITY_STUDIO_DATASET || "production",
   plugins: [structureTool()],
   schema: { types: schemaTypes },
