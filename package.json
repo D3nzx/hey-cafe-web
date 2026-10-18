@@ -1,0 +1,30 @@
+{
+  "name": "hey-cafe-web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "node -e \"require('node:fs').rmSync('.next/cache/fetch-cache',{recursive:true,force:true})\" && next build",
+    "studio": "cd studio && sanity dev --port 3333",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@sanity/client": "^8.9.0",
+    "@sanity/image-url": "^2.1.1",
+    "next": "16.4.2",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/turbopack": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.2",
+    "sanity": "^6.19.0",
+    "styled-components": "^6.1.15",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

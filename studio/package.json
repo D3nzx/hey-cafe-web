@@ -1,0 +1,10 @@
+{
+  "name": "hey-cafe-content-studio",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "sanity": "^6.19.0",
+    "styled-components": "^6.1.15"
+  }
+}
