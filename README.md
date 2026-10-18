@@ -33,6 +33,36 @@ To query Sanity during local development or a build, copy `.env.example` to `.en
 
 The Studio supports image uploads for menu items and the logo, plus an optional PDF field for an approved public menu. Do not put a write token in the website or commit project credentials.
 
+## Secure publish webhook flow
+
+This project uses a static export, so the publish hook should be handled by Cloudflare Pages Functions rather than a Next.js API route. The Cloudflare Pages function at `functions/sanity-webhook.js` verifies the Sanity webhook HMAC, and then triggers the project deploy hook. This keeps the secret out of the browser and avoids breaking the static build.
+
+### Required environment values
+
+Set these in the Cloudflare Pages project environment variables and keep them out of GitHub:
+
+```bash
+SANITY_WEBHOOK_SECRET=replace-with-a-long-random-secret
+CLOUDFLARE_DEPLOY_HOOK_URL=https://api.cloudflare.com/client/v4/pages/webhooks/deploy_hooks/your-hook-id
+```
+
+### Sanity configuration
+
+1. In Sanity, open the project and go to Project settings > Webhooks.
+2. Create a new webhook for the `main` branch or the production branch you want to deploy.
+3. Paste the Cloudflare deploy hook URL into the webhook target.
+4. Set the webhook secret to the same value used for `SANITY_WEBHOOK_SECRET`.
+5. Choose the event that should trigger deployment (typically document publish events for the live dataset).
+6. Use a test document to publish a draft, then review the deployment logs.
+
+### Recovery behavior
+
+Cloudflare Pages keeps the last successful deployment live until a new build passes. That means a failed build does not replace the previous public site. After your Sanity publish event runs, verify in Cloudflare that the new deployment either succeeds or leaves the earlier build in place.
+
+### Local validation
+
+The signature-verification helper in `src/lib/sanity-webhook.ts` is ready for test coverage and can be used to validate the same HMAC method Sanity sends.
+
 ## Remaining integration work
 
 Connect the Studio to the cafe-owned project and test sign-in, image/PDF uploads, publishing, and the public query with approved test content. Then configure static export, hosting, publishing-triggered builds, and the production handoff. Keep the fictional fixtures clearly labeled until the cafe supplies and approves its content.
