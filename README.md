@@ -1,5 +1,7 @@
 # Hey! Cafe Website
 
+Mobile-first menu and cafe information website for Hey! Cafe. No online ordering or payments.
+
 A mobile-first cafe menu and information site with a separate Sanity content editor. Menu items, categories, cafe details, branding, images, and an optional public menu PDF are managed in the Studio rather than edited in the website code.
 
 ## Current state
