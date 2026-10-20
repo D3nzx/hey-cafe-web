@@ -1,7 +1,7 @@
 # Hey! Cafe Project Status
 
-**Date and time:** 2026-10-17 18:30 PM TST
-**Project stage:** Vulnerability review complete and pushed to main; next phase is Sanity owner access setup and handoff documentation
+**Date and time:** 2026-10-20 18:30 PM TST
+**Project stage:** Lockfile sync issue identified; fix in progress to restore Cloudflare deployments
 
 ## Done
 
@@ -33,6 +33,7 @@
 - Committed and pushed the project status, secure publish workflow, and production Studio project configuration to the personal GitHub repository on `main`.
 - Checked dependency audit status: `npm audit --omit=dev` reports zero production dependency vulnerabilities. The full audit reports 19 development-tree vulnerabilities (11 high, 8 moderate); npm's proposed fix requires a breaking Sanity version change and has not been applied.
 - Reviewed all 19 development-tree vulnerabilities. Upgraded `sanity` devDependency from `6.19.0` to `6.20.0` (non-breaking). Added `npm overrides` for `smol-toml` (^1.9.1) and `uuid` (^11.1.1) to resolve 3 of 19 vulnerabilities where patched versions exist. Updated `studio/package.json` to match `^6.20.0`. Remaining 16 vulnerabilities are in `braces`, `js-yaml`, and `sprintf-js` — all nested inside `@sanity/cli` internals or `eslint-config-next`'s glob chain; no patched upstream versions exist yet. All 16 are dev-only tools with zero production exposure. `npm run build` and all tests pass after the changes. Changes committed and pushed to `main` (commit `95759d7`).
+- Identified that commits `95759d7` (vulnerability review) and `b594bac` (project status update) failed Cloudflare deployment due to `package-lock.json` being out of sync after adding npm overrides. The lockfile was missing TypeScript 7.0.2 and its optional platform-specific packages. Production site remains live on the last successful deployment (`a643b04`). Prepared fix command to regenerate lockfile and restore deployments.
 
 ## Deferred Until Production Readiness
 
@@ -41,6 +42,7 @@
 
 ## TO DO LIST
 
+- Fix the lockfile sync issue: run `npm install` locally to regenerate `package-lock.json` with TypeScript 7 optional dependencies, then commit and push to restore Cloudflare deployments for commits `95759d7` and `b594bac`.
 - Set up cafe-owner Sanity access: create a dedicated free Gmail for the cafe and use it to invite them as an editor in the Sanity project (`755fh2p2`) before handoff.
 - Complete handoff documentation: write a concise guide covering the live URL, how to sign in to Sanity Studio, how to add and publish menu items, and who to contact for technical support.
 - Complete client approval and production launch checks (confirm live URL, account ownership, and billing contacts with the cafe owner).
