@@ -4,6 +4,16 @@ Mobile-first menu and cafe information website for Hey! Cafe. No online ordering
 
 A mobile-first cafe menu and information site with a separate Sanity content editor. Menu items, categories, cafe details, branding, images, and an optional public menu PDF are managed in the Studio rather than edited in the website code.
 
+## Content intake workflow
+
+- The client uploads approved menu items, prices, product photos, branding assets, and cafe information to a shared Google Drive folder.
+- The developer reviews the assets and imports them into Sanity using a validated workflow or enters them directly when the CMS is ready.
+- A cafe editor reviews the draft content in Sanity Studio and publishes the approved version.
+- A Sanity publish event triggers the Cloudflare Pages deployment, which rebuilds the public site with the latest approved content.
+- Placeholder products, categories, and imagery remain clearly labeled until the cafe supplies and approves final content.
+
+The initial category placeholders include Espresso, Signature Drinks, Non-Coffee, and Pastries. These are sample placeholders only and must be replaced with the final confirmed categories before launch.
+
 ## Current state
 
 - Without a Sanity project ID, the public page remains a concept preview with clearly fictional local sample content.
@@ -62,6 +72,20 @@ Cloudflare Pages keeps the last successful deployment live until a new build pas
 ### Local validation
 
 The signature-verification helper in `src/lib/sanity-webhook.ts` is ready for test coverage and can be used to validate the same HMAC method Sanity sends.
+
+## Launch and handoff checklist
+
+- [ ] Receive and verify the final menu, prices, categories, product photos, cafe details, and logo.
+- [ ] Confirm spelling, descriptions, prices, availability, location, hours, and social URLs with the client.
+- [ ] Replace every mock item and placeholder image with approved content.
+- [ ] Test mobile and desktop layouts, keyboard navigation, accessibility basics, image loading, and empty/unavailable states.
+- [ ] Test that publishing content in Sanity triggers a successful website deployment.
+- [ ] Test that a failed build does not replace the previous live site.
+- [ ] Review current Sanity and Cloudflare quotas, terms, and commercial-use rules.
+- [ ] Confirm the production URL and account ownership with the client.
+- [ ] Share the live URL and a concise guide for updating and publishing the menu.
+- [ ] Agree on who handles future content updates, dependency maintenance, and deployment failures.
+- [ ] Add the PWA manifest only if it adds value after launch requirements are met.
 
 ## Remaining integration work
 

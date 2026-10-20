@@ -33,11 +33,12 @@ This architecture assumes the site does not need customer accounts, online order
 ### Content publishing flow
 
 1. The client uploads approved menu, prices, product photos, and cafe information to the shared Drive folder.
-2. The developer reviews the assets and enters them into Sanity, or imports them using a validated workflow.
+2. The developer reviews the assets and imports them into Sanity using a validated workflow or enters them directly when the CMS is ready.
 3. A cafe editor reviews and publishes content in Sanity Studio.
-4. A Sanity webhook triggers a Cloudflare Pages deployment after a publish event.
-5. Cloudflare builds the static site using the published Sanity content and deploys it if the build succeeds.
-6. Customers see the latest successfully deployed content. If a build fails, the previous deployment remains live while the issue is fixed.
+4. A Sanity publish event triggers a Cloudflare Pages deployment webhook.
+5. Cloudflare Pages receives the webhook, validates the Sanity signature, and triggers the deploy hook for the production site.
+6. Cloudflare builds the static site using the published Sanity content and deploys it if the build succeeds.
+7. Customers see the latest successfully deployed content. If a build fails, the previous deployment remains live while the issue is fixed.
 
 Content changes are not necessarily instant: they become public after the new build completes. This is an intentional simplicity and cost trade-off.
 
@@ -66,6 +67,7 @@ Create the following document types in Sanity:
 - Featured / best-seller flag
 - Availability status
 - Display order
+- Optional approved public menu PDF reference, if the cafe wants a downloadable PDF version of the menu
 
 ### Category
 
@@ -85,6 +87,7 @@ Create the following document types in Sanity:
 
 - Cafe name and logo
 - Shared presentation settings, if needed
+- Optional public menu PDF field or document reference, if approved for publication
 
 The roadmap suggests Espresso, Signature Drinks, Non-Coffee, and Pastries as initial categories. Keep these as placeholders until the cafe confirms its actual categories. Do not invent menu names, prices, availability, or business details for production.
 
@@ -125,7 +128,17 @@ Configure Next.js for a static export by setting `output: 'export'` in `next.con
 - Connect the website repository to Cloudflare Pages.
 - Configure the build command and static output directory to match the Next.js static export (`out`). Confirm this with an initial deployment.
 - Configure a Sanity webhook for published content changes. Store the Cloudflare deploy-hook URL only in Sanity's webhook configuration; do not commit it to the repository.
+- Use Cloudflare Pages Functions to validate the Sanity webhook signature and then trigger the Cloudflare deploy hook. This keeps the secret out of the browser and allows the static site to remain build-only.
 - Confirm the main branch deploys successfully and that a failed build leaves the last successful deployment available.
+
+Example Cloudflare environment values for the webhook flow:
+
+```bash
+SANITY_WEBHOOK_SECRET=replace-with-a-long-random-secret
+CLOUDFLARE_DEPLOY_HOOK_URL=https://api.cloudflare.com/client/v4/pages/webhooks/deploy_hooks/your-hook-id
+```
+
+Keep these values in Cloudflare project environment variables, not in GitHub or browser code.
 
 ### 5. Configuration and secrets
 
