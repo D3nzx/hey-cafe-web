@@ -1,7 +1,7 @@
 # Hey! Cafe Project Status
 
-**Date and time:** 2026-10-17 17:45 PM TST
-**Project stage:** Dependency vulnerability review complete; handoff documentation and real content replacement remain
+**Date and time:** 2026-10-17 18:30 PM TST
+**Project stage:** Vulnerability review complete and pushed to main; next phase is Sanity owner access setup and handoff documentation
 
 ## Done
 
@@ -32,17 +32,19 @@
 - Tested failed-build recovery with a controlled production build failure; Cloudflare kept the previous successful deployment active and the live site remained available. Restored the normal build command, removed the temporary test category, and completed the recovery deployment.
 - Committed and pushed the project status, secure publish workflow, and production Studio project configuration to the personal GitHub repository on `main`.
 - Checked dependency audit status: `npm audit --omit=dev` reports zero production dependency vulnerabilities. The full audit reports 19 development-tree vulnerabilities (11 high, 8 moderate); npm's proposed fix requires a breaking Sanity version change and has not been applied.
-- Reviewed all 19 development-tree vulnerabilities. Upgraded `sanity` devDependency from `6.19.0` to `6.20.0` (non-breaking). Added `npm overrides` for `smol-toml` (^1.9.1) and `uuid` (^11.1.1) to resolve 3 vulnerabilities where patched versions exist. Remaining 16 vulnerabilities are in `braces`, `js-yaml`, and `sprintf-js` — all nested inside `@sanity/cli` internals or `eslint-config-next`'s glob chain; no patched upstream versions exist yet. All 16 are dev-only tools with zero production exposure. `npm run build` and all tests pass after the changes.
+- Reviewed all 19 development-tree vulnerabilities. Upgraded `sanity` devDependency from `6.19.0` to `6.20.0` (non-breaking). Added `npm overrides` for `smol-toml` (^1.9.1) and `uuid` (^11.1.1) to resolve 3 of 19 vulnerabilities where patched versions exist. Updated `studio/package.json` to match `^6.20.0`. Remaining 16 vulnerabilities are in `braces`, `js-yaml`, and `sprintf-js` — all nested inside `@sanity/cli` internals or `eslint-config-next`'s glob chain; no patched upstream versions exist yet. All 16 are dev-only tools with zero production exposure. `npm run build` and all tests pass after the changes. Changes committed and pushed to `main` (commit `95759d7`).
 
 ## Deferred Until Production Readiness
 
 - Sanity Studio's Releases screen has a runtime error. Standard document publishing works; investigate the Releases issue only if scheduled publishing is required.
+- Remaining 16 dev-tree vulnerabilities (`braces`, `js-yaml`, `sprintf-js`) have no patched upstream versions available. Re-check after future `sanity` or `eslint-config-next` releases before launch.
 
 ## TO DO LIST
 
-- Confirm cafe-owner access to the Sanity organization/project: create a free Gmail for the cafe and use it to invite them as an editor in the Sanity project before handoff.
-- Complete client approval, production launch checks, and handoff documentation.
-- Obtain cafe-owner approval and the real menu, prices, categories, product photos, logo, location, hours, and contact/social details before replacing concept content. (Do last — after handoff docs are ready.)
+- Set up cafe-owner Sanity access: create a dedicated free Gmail for the cafe and use it to invite them as an editor in the Sanity project (`755fh2p2`) before handoff.
+- Complete handoff documentation: write a concise guide covering the live URL, how to sign in to Sanity Studio, how to add and publish menu items, and who to contact for technical support.
+- Complete client approval and production launch checks (confirm live URL, account ownership, and billing contacts with the cafe owner).
+- Obtain cafe-owner approval and the real menu, prices, categories, product photos, logo, location, hours, and contact/social details before replacing concept content. (Do last — after handoff docs are ready and cafe owner has access.)
 
 ## Vulnerability Status (Dev-Only)
 
