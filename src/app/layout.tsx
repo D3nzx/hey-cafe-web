@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Hey! Cafe | Concept Menu",
+  title: "Hey! Cafe — Menu",
   description:
     "A fictional menu catalog prototype for Hey! Cafe. Menu items, prices, and imagery are samples only.",
 };
