@@ -1,7 +1,7 @@
 # Hey! Cafe Project Status
 
-**Date and time:** 2026-10-22 15:00 PM TST
-**Project stage:** Demo content live and verified; site ready for client walkthrough and content handoff
+**Date and time:** 2026-10-22 21:45 PM TST
+**Project stage:** Demo content live; favicon and tab title updated; pending client walkthrough and content handoff
 
 ## Done
 
@@ -44,6 +44,8 @@
 - Populated the production Sanity dataset with demo content: 4 categories (Espresso, Signature Drinks, Non-Coffee, Pastries), 16 menu items with photos sourced from Google Images, confirmed all items appear correctly on the live site at `hey-cafe-web.pages.dev`.
 - Entered real cafe information into Sanity: address (Sta. Catalina Subdivision, Yati, Liloan, Cebu), confirmed opening hours from the cafe's Facebook page (Mon/Wed/Thu/Sun: 3:00 PM – 10:30 PM; Fri/Sat: 3:00 PM – 12:00 AM; Tue: Closed), phone number, and social links.
 - Fixed opening hours display: added `formatTime()` utility to `src/lib/cafe-content.ts` that converts 24-hour time strings to 12-hour AM/PM format for customer-facing display. Applied it to both open and close fields in `src/app/page.tsx`. Build verified and deployed; hours now display as e.g. `3:00 PM - 10:30 PM` instead of `15:00 - 22:30`.
+- Updated the browser tab title from "Hey! Cafe | Concept Menu" to "Hey! Cafe — Menu" in `src/app/layout.tsx` metadata.
+- Added the Hey! Cafe logo (`icon.png`) to `src/app/` using Next.js App Router's file-based favicon convention. The circular red-and-white "HEY! Cafe" badge now displays as the browser tab icon, replacing the default Next.js favicon. Source logo archived in `docs/icons/hey-cafe-logo.png`.
 
 ## Deferred Until Production Readiness
 
