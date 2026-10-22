@@ -108,6 +108,22 @@ function imageUrl(source: SanityImageSource | null | undefined): string | null {
   return imageBuilder.image(source).width(1000).auto("format").url();
 }
 
+/**
+ * Converts a 24-hour time string (e.g. "15:00") to 12-hour format (e.g. "3:00 PM").
+ * Returns the original string unchanged if it doesn't match the expected format.
+ */
+export function formatTime(time: string | undefined): string | undefined {
+  if (!time) return undefined;
+  const match = time.match(/^(\d{1,2}):(\d{2})$/);
+  if (!match) return time;
+  let hours = parseInt(match[1], 10);
+  const minutes = match[2];
+  const period = hours >= 12 ? "PM" : "AM";
+  if (hours === 0) hours = 12;
+  else if (hours > 12) hours -= 12;
+  return minutes === "00" ? `${hours}:00 ${period}` : `${hours}:${minutes} ${period}`;
+}
+
 export async function getPublishedContent(): Promise<PublishedContent | null> {
   if (!client) return null;
 

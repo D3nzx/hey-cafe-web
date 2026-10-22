@@ -1,5 +1,6 @@
 import {
   getPublishedContent,
+  formatTime,
   type MenuCategory,
   type MenuItem,
 } from "@/lib/cafe-content";
@@ -273,7 +274,7 @@ export default async function Home() {
                   <ul className="hours-list">
                     {cafeInfo.hours.map(({ day, open, close, closed }) => (
                       <li key={day}>
-                        {day.charAt(0).toUpperCase() + day.slice(1)}: {closed ? "Closed" : `${open || "Hours pending"}${close ? ` - ${close}` : ""}`}
+                        {day.charAt(0).toUpperCase() + day.slice(1)}: {closed ? "Closed" : `${formatTime(open) || "Hours pending"}${close ? ` - ${formatTime(close)}` : ""}`}
                       </li>
                     ))}
                   </ul>

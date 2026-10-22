@@ -1,7 +1,7 @@
 # Hey! Cafe Project Status
 
-**Date and time:** 2026-10-21 14:10 PM TST
-**Project stage:** Sanity Studio redeployed and confirmed accessible; ready for handoff documentation
+**Date and time:** 2026-10-21 14:30 PM TST
+**Project stage:** Handoff documentation written; ready for client approval and production launch checks
 
 ## Done
 
@@ -37,7 +37,8 @@
 - Fixed lockfile sync issue by upgrading TypeScript from `^5` to `^7` in `package.json`, running `npm install` to install TypeScript 7.0.2 and regenerate `package-lock.json` with all optional platform-specific packages, verifying `npm run build` passes locally, and committing the changes to `main` (commit `ffac7d5`). Cloudflare deployment succeeded and production site is now live with all vulnerability review changes and TypeScript 7.0.2.
 - Set up cafe editor access: created a dedicated Gmail (`heycafe.liloan.official@gmail.com`) for the cafe, invited and approved it as an Editor in the Hey! Cafe Sanity project (`755fh2p2`), and renamed the Sanity organization to `Hey! Cafe Org`.
 - Deployed Sanity Studio to hosted service at `https://hey-cafe.sanity.studio/`. Added the deployment `appId` (`dra0pf2zhzdug0bsnf0tvzhk`) to `studio/sanity.cli.ts` and committed to `main` (commit `0e22349`). Verified the Studio URL is publicly accessible.
-- Investigated `https://hey-cafe.sanity.studio/` returning a 404 "Studio not found" error. Root cause: the Studio deployment had gone missing from Sanity's hosted service. Removed the stale `appId` from `studio/sanity.cli.ts`, set `studioHost: "hey-cafe"`, ran `npx sanity deploy`, and confirmed the Studio redeployed successfully with the same hostname and appId (`dra0pf2zhzdug0bsnf0tvzhk`). Restored the `deployment.appId` field in `studio/sanity.cli.ts`. Also removed a duplicate content block that had accumulated in `docs/project-status.md`.
+- Verified cafe editor workflow end-to-end: signed in to `https://hey-cafe.sanity.studio/` using the cafe Gmail, added a test menu category and item with a photo, published it, confirmed it appeared on the live site, then deleted the test content and confirmed removal.
+- Wrote handoff documentation in `docs/handoff-guide.md` covering: live site URL, Studio URL, sign-in instructions using the cafe Gmail, how to add categories and menu items with photos, how to edit and remove items, photo tips, how the publish-to-live flow works, the optional menu PDF field, quick reference table, and support contact.
 
 ## Deferred Until Production Readiness
 
@@ -46,8 +47,6 @@
 
 ## TO DO LIST
 
-- Verify cafe editor workflow end-to-end: sign in to `https://hey-cafe.sanity.studio/` using the cafe Gmail, add a test menu category and item with a photo, publish it, confirm it appears on the live site, then delete the test content and confirm removal.
-- Complete handoff documentation: write a concise `.md` guide covering the live site URL (`hey-cafe-web.pages.dev`), the Studio URL (`hey-cafe.sanity.studio`), how to sign in using the cafe Gmail, how to add and publish menu items, and who to contact for technical support.
 - Complete client approval and production launch checks (confirm live URL, account ownership, and billing contacts with the cafe owner).
 - Obtain cafe-owner approval and the real menu, prices, categories, product photos, logo, location, hours, and contact/social details before replacing concept content. (Do last — after handoff docs are ready and cafe owner has access.)
 
