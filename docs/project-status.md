@@ -1,7 +1,7 @@
 # Hey! Cafe Project Status
 
-**Date and time:** 2026-10-21 14:30 PM TST
-**Project stage:** Handoff documentation written; ready for client approval and production launch checks
+**Date and time:** 2026-10-22 15:00 PM TST
+**Project stage:** Demo content live and verified; site ready for client walkthrough and content handoff
 
 ## Done
 
@@ -37,8 +37,13 @@
 - Fixed lockfile sync issue by upgrading TypeScript from `^5` to `^7` in `package.json`, running `npm install` to install TypeScript 7.0.2 and regenerate `package-lock.json` with all optional platform-specific packages, verifying `npm run build` passes locally, and committing the changes to `main` (commit `ffac7d5`). Cloudflare deployment succeeded and production site is now live with all vulnerability review changes and TypeScript 7.0.2.
 - Set up cafe editor access: created a dedicated Gmail (`heycafe.liloan.official@gmail.com`) for the cafe, invited and approved it as an Editor in the Hey! Cafe Sanity project (`755fh2p2`), and renamed the Sanity organization to `Hey! Cafe Org`.
 - Deployed Sanity Studio to hosted service at `https://hey-cafe.sanity.studio/`. Added the deployment `appId` (`dra0pf2zhzdug0bsnf0tvzhk`) to `studio/sanity.cli.ts` and committed to `main` (commit `0e22349`). Verified the Studio URL is publicly accessible.
+- Investigated `https://hey-cafe.sanity.studio/` returning a 404 "Studio not found" error. Root cause: the Studio deployment had gone missing from Sanity's hosted service. Removed the stale `appId` from `studio/sanity.cli.ts`, set `studioHost: "hey-cafe"`, ran `npx sanity deploy`, and confirmed the Studio redeployed successfully with the same hostname and appId (`dra0pf2zhzdug0bsnf0tvzhk`). Restored the `deployment.appId` field in `studio/sanity.cli.ts`. Also removed a duplicate content block that had accumulated in `docs/project-status.md`.
 - Verified cafe editor workflow end-to-end: signed in to `https://hey-cafe.sanity.studio/` using the cafe Gmail, added a test menu category and item with a photo, published it, confirmed it appeared on the live site, then deleted the test content and confirmed removal.
 - Wrote handoff documentation in `docs/handoff-guide.md` covering: live site URL, Studio URL, sign-in instructions using the cafe Gmail, how to add categories and menu items with photos, how to edit and remove items, photo tips, how the publish-to-live flow works, the optional menu PDF field, quick reference table, and support contact.
+- Created demo content guide in `docs/demo-content.md` with 4 categories, 16 sample menu items with prices and descriptions, photo search terms per item, and step-by-step Studio entry instructions for client preview testing.
+- Populated the production Sanity dataset with demo content: 4 categories (Espresso, Signature Drinks, Non-Coffee, Pastries), 16 menu items with photos sourced from Google Images, confirmed all items appear correctly on the live site at `hey-cafe-web.pages.dev`.
+- Entered real cafe information into Sanity: address (Sta. Catalina Subdivision, Yati, Liloan, Cebu), confirmed opening hours from the cafe's Facebook page (Mon/Wed/Thu/Sun: 3:00 PM – 10:30 PM; Fri/Sat: 3:00 PM – 12:00 AM; Tue: Closed), phone number, and social links.
+- Fixed opening hours display: added `formatTime()` utility to `src/lib/cafe-content.ts` that converts 24-hour time strings to 12-hour AM/PM format for customer-facing display. Applied it to both open and close fields in `src/app/page.tsx`. Build verified and deployed; hours now display as e.g. `3:00 PM - 10:30 PM` instead of `15:00 - 22:30`.
 
 ## Deferred Until Production Readiness
 
@@ -47,8 +52,10 @@
 
 ## TO DO LIST
 
-- Complete client approval and production launch checks (confirm live URL, account ownership, and billing contacts with the cafe owner).
-- Obtain cafe-owner approval and the real menu, prices, categories, product photos, logo, location, hours, and contact/social details before replacing concept content. (Do last — after handoff docs are ready and cafe owner has access.)
+- Complete client approval and production launch checks: confirm live URL with cafe owner, agree on account ownership (Sanity, Cloudflare, GitHub), and confirm billing contacts.
+- Walk the cafe owner through the live demo at `hey-cafe-web.pages.dev` and the Studio at `hey-cafe.sanity.studio` using the handoff guide in `docs/handoff-guide.md`.
+- Obtain cafe-owner approval and the real menu, prices, categories, product photos, logo, location, hours, and contact/social details before replacing demo content. (Do last — after client walkthrough and handoff docs are confirmed.)
+- Delete demo content from the production Sanity dataset and replace with real cafe-approved menu items, categories, photos, and descriptions once the owner supplies and approves them.
 
 ## Vulnerability Status (Dev-Only)
 
