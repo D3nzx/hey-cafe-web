@@ -170,8 +170,6 @@ export default async function Home() {
   const cafeInfo = content?.cafeInfo;
   const cafeName = content?.siteSettings?.cafeName || "Hey! Cafe";
   const logo = content?.siteSettings?.logo;
-  const logoSrc = logo?.url || "/hey-cafe-logo.png";
-  const logoAlt = logo?.alt || cafeName;
   const cmsIntro = cafeInfo?.introduction?.trim();
   const welcomeCopy =
     cmsIntro && !isPlaceholderIntro(cmsIntro)
@@ -192,7 +190,6 @@ export default async function Home() {
       <header className="site-header">
         <div className="header-inner">
           <a className="wordmark" href="#top" aria-label={`${cafeName} home`}>
-            <img className="brand-logo" src={logoSrc} alt="" width={48} height={48} />
             <span className="wordmark-text">{cafeName}</span>
           </a>
           <nav className="primary-nav" aria-label="Main navigation">
@@ -298,7 +295,6 @@ export default async function Home() {
 
       <footer className="site-footer">
         <a className="footer-brand" href="#top" aria-label={`${cafeName} home`}>
-          <img className="footer-logo" src="/hey-cafe-logo.png" alt="" width={36} height={36} />
           <span>{cafeName}</span>
         </a>
         <p>{conceptPreview ? "Sample preview · Not an official menu" : "Yati, Liloan, Cebu"}</p>

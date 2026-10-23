@@ -92,18 +92,6 @@ a:focus-visible {
   min-width: 0;
 }
 
-.brand-logo,
-.footer-logo {
-  display: block;
-  width: 44px;
-  height: 44px;
-  flex: 0 0 auto;
-  border-radius: 50%;
-  background: #111;
-  object-fit: cover;
-  box-shadow: 0 0 0 1px rgb(32 37 34 / 12%);
-}
-
 .wordmark-text {
   overflow: hidden;
   font-family: Georgia, "Times New Roman", serif;
@@ -566,11 +554,6 @@ a:focus-visible {
   font-weight: 700;
 }
 
-.footer-logo {
-  width: 36px;
-  height: 36px;
-}
-
 .site-footer p,
 .site-footer > a:last-child {
   margin: 0;
@@ -611,11 +594,6 @@ a:focus-visible {
   .catalog-section { width: calc(100% - 32px); }
 
   .header-inner { height: 64px; }
-
-  .brand-logo {
-    width: 38px;
-    height: 38px;
-  }
 
   .wordmark { gap: 10px; }
   .wordmark-text { font-size: 20px; }
@@ -722,7 +700,6 @@ a:focus-visible {
   }
 
   .footer-brand { font-size: 16px; }
-  .footer-logo { width: 32px; height: 32px; }
 
   .site-footer p {
     display: none;
