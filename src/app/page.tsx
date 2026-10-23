@@ -178,7 +178,7 @@ export default async function Home() {
       ? cmsIntro
       : conceptPreview
         ? "A first look at the menu experience. Real offerings and cafe details will go here after the owner approves them."
-        : "Neighborhood cafe in Yati, Liloan. Espresso, signatures, and pastries — we open at 3.";
+        : "Our menu and cafe details are managed by the cafe. Check back soon for updates.";
   const hoursGroups = cafeInfo?.hours.length ? formatHoursGroups(cafeInfo.hours) : [];
 
   return (
