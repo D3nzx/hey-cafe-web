@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Hey! Cafe — Menu",
   description:
-    "A fictional menu catalog prototype for Hey! Cafe. Menu items, prices, and imagery are samples only.",
+    "Espresso, signatures, and pastries at Hey! Cafe in Yati, Liloan, Cebu.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

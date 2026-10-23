@@ -1,15 +1,15 @@
 import {
   getPublishedContent,
-  formatTime,
+  formatHoursGroups,
   type MenuCategory,
   type MenuItem,
 } from "@/lib/cafe-content";
 
 const categories: MenuCategory[] = [
-  { name: "Espresso bar", slug: "espresso", note: "Demo classics" },
-  { name: "House specials", slug: "specials", note: "Fictional favorites" },
-  { name: "No coffee", slug: "no-coffee", note: "Made-up refreshers" },
-  { name: "Bakery", slug: "bakery", note: "Sample bakes" },
+  { name: "Espresso bar", slug: "espresso", note: "Classics from the machine" },
+  { name: "House specials", slug: "specials", note: "Drinks we love making" },
+  { name: "No coffee", slug: "no-coffee", note: "Tea, soda, and more" },
+  { name: "Bakery", slug: "bakery", note: "Bakes for the table" },
 ];
 
 const sampleMenu: MenuItem[] = [
@@ -54,6 +54,11 @@ const sampleMenu: MenuItem[] = [
   },
 ];
 
+function isPlaceholderIntro(text: string | undefined): boolean {
+  if (!text?.trim()) return true;
+  return /coming soon|to be confirmed|placeholder|lorem/i.test(text);
+}
+
 function MenuContent({
   categories,
   items,
@@ -84,7 +89,7 @@ function MenuContent({
       <div className="empty-state" role="status">
         <span className="empty-mark" aria-hidden="true">+</span>
         <h3>The menu is taking a little break.</h3>
-        <p>There are no published items yet. Please check back soon.</p>
+        <p>Please check back soon.</p>
       </div>
     );
   }
@@ -92,9 +97,9 @@ function MenuContent({
   return (
     <>
       <nav className="category-nav" aria-label="Menu categories">
-        {categories.map((category, index) => (
+        {categories.map((category) => (
           <a href={`#${category.slug}`} key={category.slug}>
-            <span>0{index + 1}</span> {category.name}
+            {category.name}
           </a>
         ))}
       </nav>
@@ -112,11 +117,8 @@ function MenuContent({
             aria-labelledby={`${category.slug}-title`}
           >
             <div className="category-heading">
-              <div>
-                <span className="category-index">0{categoryIndex + 1}</span>
-                <h3 id={`${category.slug}-title`}>{category.name}</h3>
-              </div>
-              <p>{category.note}</p>
+              <h3 id={`${category.slug}-title`}>{category.name}</h3>
+              {category.note ? <p>{category.note}</p> : null}
             </div>
             <div className="menu-grid">
               {categoryItems.map((item, itemIndex) => (
@@ -131,9 +133,10 @@ function MenuContent({
                     aria-label={item.imageAlt}
                     style={item.image ? { backgroundImage: `url("${item.image}")` } : undefined}
                   >
-                    <span className="image-caption">
-                      {item.image ? (conceptPreview ? "Sample image" : "Cafe photo") : "Photo pending"}
-                    </span>
+                    {conceptPreview && item.image && (
+                      <span className="image-caption">Sample</span>
+                    )}
+                    {!item.image && <span className="image-caption">Photo soon</span>}
                     {item.availability === "unavailable" && (
                       <span className="availability-badge">Sold out</span>
                     )}
@@ -143,7 +146,7 @@ function MenuContent({
                       <h4>{item.name}</h4>
                       <span className="item-price">₱{item.price}</span>
                     </div>
-                    <p>{item.description}</p>
+                    {item.description ? <p>{item.description}</p> : null}
                     {item.availability === "unavailable" && (
                       <span className="unavailable-note">Not available today</span>
                     )}
@@ -167,54 +170,47 @@ export default async function Home() {
   const cafeInfo = content?.cafeInfo;
   const cafeName = content?.siteSettings?.cafeName || "Hey! Cafe";
   const logo = content?.siteSettings?.logo;
+  const logoSrc = logo?.url || "/hey-cafe-logo.png";
+  const logoAlt = logo?.alt || cafeName;
+  const cmsIntro = cafeInfo?.introduction?.trim();
+  const welcomeCopy =
+    cmsIntro && !isPlaceholderIntro(cmsIntro)
+      ? cmsIntro
+      : conceptPreview
+        ? "A first look at the menu experience. Real offerings and cafe details will go here after the owner approves them."
+        : "Neighborhood cafe in Yati, Liloan. Espresso, signatures, and pastries — we open at 3.";
+  const hoursGroups = cafeInfo?.hours.length ? formatHoursGroups(cafeInfo.hours) : [];
 
   return (
     <>
       {conceptPreview && (
         <div className="demo-ribbon">
           <span className="ribbon-dot" aria-hidden="true" />
-          Concept preview: all menu items, prices, and photos are fictional
+          Sample preview — items, prices, and photos are fictional
         </div>
       )}
       <header className="site-header">
-        <a className="wordmark" href="#top" aria-label={`${cafeName} home`}>
-          {logo ? (
-            <span
-              className="brand-logo"
-              role="img"
-              aria-label={logo.alt}
-              style={{ backgroundImage: `url("${logo.url}")` }}
-            />
-          ) : (
-            <>
-              <span className="wordmark-spark" aria-hidden="true">✳</span>
-              <span>{cafeName}</span>
-            </>
-          )}
-          <span className="wordmark-sub">{conceptPreview ? "CAFE / CONCEPT" : "MENU / VISIT"}</span>
-        </a>
-        <nav className="primary-nav" aria-label="Main navigation">
-          <a href="#menu">Menu</a>
-          <a href="#visit">Visit</a>
-        </nav>
-        <a className="header-link" href="#menu">
-          Browse menu <span aria-hidden="true">↘</span>
-        </a>
+        <div className="header-inner">
+          <a className="wordmark" href="#top" aria-label={`${cafeName} home`}>
+            <img className="brand-logo" src={logoSrc} alt="" width={48} height={48} />
+            <span className="wordmark-text">{cafeName}</span>
+          </a>
+          <nav className="primary-nav" aria-label="Main navigation">
+            <a href="#menu">Menu</a>
+            <a href="#visit">Visit</a>
+          </nav>
+        </div>
       </header>
 
       <main id="top">
         <section className="intro-band" aria-labelledby="intro-title">
           <div className="intro-inner">
             <div className="intro-copy">
-              <p className="eyebrow"><span />{conceptPreview ? "A cafe catalog in progress" : "MENU AND CAFE INFORMATION"}</p>
+              <p className="eyebrow"><span />{conceptPreview ? "A cafe catalog in progress" : "Yati, Liloan"}</p>
               <h1 id="intro-title">Good things<br />are brewing.</h1>
-              <p className="intro-description">
-                {cafeInfo?.introduction || (conceptPreview
-                  ? "A first look at the menu experience. Real offerings and cafe details will go here after the owner approves them."
-                  : "Browse the current menu and find the cafe's confirmed location and hours.")}
-              </p>
+              <p className="intro-description">{welcomeCopy}</p>
               <a className="intro-link" href="#menu">
-                {conceptPreview ? "See the sample menu" : "Browse the menu"} <span aria-hidden="true">↓</span>
+                {conceptPreview ? "See the sample menu" : "See the menu"} <span aria-hidden="true">↓</span>
               </a>
             </div>
             {conceptPreview && (
@@ -230,13 +226,8 @@ export default async function Home() {
 
         <section className="catalog-section" id="menu" aria-labelledby="menu-title">
           <div className="catalog-heading">
-            <div>
-              <p className="eyebrow eyebrow-dark">{conceptPreview ? "THE MENU / SAMPLE DATA" : "THE MENU"}</p>
-              <h2 id="menu-title">Find your usual.<br /><em>Or your new one.</em></h2>
-            </div>
-            <p className="catalog-note">{conceptPreview
-              ? "Everything below is made up for layout testing. Prices and availability are not real."
-              : "Menu items, prices, and availability shown as published by the cafe."}</p>
+            <p className="eyebrow eyebrow-dark">Menu</p>
+            <h2 id="menu-title">Find your usual — or a new favorite.</h2>
           </div>
 
           <MenuContent
@@ -249,11 +240,8 @@ export default async function Home() {
 
         <section className="visit-section" id="visit" aria-labelledby="visit-title">
           <div className="visit-heading">
-            <p className="eyebrow">{conceptPreview ? "THE DETAILS / TO BE CONFIRMED" : "THE DETAILS"}</p>
-            <h2 id="visit-title">Come by <em>sometime.</em></h2>
-            <p>{conceptPreview
-              ? "We’ll add the useful details as soon as the cafe confirms them."
-              : "Plan your visit using the details published by the cafe."}</p>
+            <p className="eyebrow">Visit</p>
+            <h2 id="visit-title">Come by this afternoon.</h2>
           </div>
           <dl className="visit-details">
             <div>
@@ -268,13 +256,14 @@ export default async function Home() {
               </dd>
             </div>
             <div>
-              <dt>Opening hours</dt>
+              <dt>Hours</dt>
               <dd>
-                {cafeInfo?.hours.length ? (
+                {hoursGroups.length ? (
                   <ul className="hours-list">
-                    {cafeInfo.hours.map(({ day, open, close, closed }) => (
-                      <li key={day}>
-                        {day.charAt(0).toUpperCase() + day.slice(1)}: {closed ? "Closed" : `${formatTime(open) || "Hours pending"}${close ? ` - ${formatTime(close)}` : ""}`}
+                    {hoursGroups.map(({ days, time }) => (
+                      <li key={days}>
+                        <span>{days}</span>
+                        <span>{time}</span>
                       </li>
                     ))}
                   </ul>
@@ -308,9 +297,12 @@ export default async function Home() {
       </main>
 
       <footer className="site-footer">
-        <a className="footer-wordmark" href="#top">{cafeName}</a>
-        <p>{conceptPreview ? "Concept preview only · Not an official menu" : "Information published by the cafe"}</p>
-        <a href="#top">Back to top ↑</a>
+        <a className="footer-brand" href="#top" aria-label={`${cafeName} home`}>
+          <img className="footer-logo" src="/hey-cafe-logo.png" alt="" width={36} height={36} />
+          <span>{cafeName}</span>
+        </a>
+        <p>{conceptPreview ? "Sample preview · Not an official menu" : "Yati, Liloan, Cebu"}</p>
+        <a href="#top">Back to top</a>
       </footer>
     </>
   );

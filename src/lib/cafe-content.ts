@@ -124,6 +124,61 @@ export function formatTime(time: string | undefined): string | undefined {
   return minutes === "00" ? `${hours}:00 ${period}` : `${hours}:${minutes} ${period}`;
 }
 
+const WEEKDAY_ORDER = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+
+const WEEKDAY_SHORT: Record<string, string> = {
+  monday: "Mon",
+  tuesday: "Tue",
+  wednesday: "Wed",
+  thursday: "Thu",
+  friday: "Fri",
+  saturday: "Sat",
+  sunday: "Sun",
+};
+
+function formatDayList(days: string[]): string {
+  if (days.length === 1) return days[0];
+  if (days.length === 2) return `${days[0]} & ${days[1]}`;
+  return `${days.slice(0, -1).join(", ")} & ${days[days.length - 1]}`;
+}
+
+function hoursValue(entry: CafeHours): string {
+  if (entry.closed) return "Closed";
+  const open = formatTime(entry.open) || "Hours pending";
+  return entry.close ? `${open} – ${formatTime(entry.close)}` : open;
+}
+
+/** Groups cafe hours by shared times, e.g. "Mon, Wed & Thu" + "3:00 PM – 10:30 PM". */
+export function formatHoursGroups(hours: CafeHours[]): { days: string; time: string }[] {
+  const groups = new Map<string, { days: string[]; firstDay: number; closed: boolean }>();
+
+  for (const entry of hours) {
+    const key = entry.day.toLowerCase();
+    const short = WEEKDAY_SHORT[key] ?? entry.day;
+    const time = hoursValue(entry);
+    const existing = groups.get(time);
+    const dayIndex = WEEKDAY_ORDER.indexOf(key);
+
+    if (existing) {
+      existing.days.push(short);
+      existing.firstDay = Math.min(existing.firstDay, dayIndex === -1 ? 99 : dayIndex);
+    } else {
+      groups.set(time, {
+        days: [short],
+        firstDay: dayIndex === -1 ? 99 : dayIndex,
+        closed: Boolean(entry.closed),
+      });
+    }
+  }
+
+  return [...groups.entries()]
+    .sort((a, b) => {
+      if (a[1].closed !== b[1].closed) return a[1].closed ? 1 : -1;
+      return a[1].firstDay - b[1].firstDay;
+    })
+    .map(([time, group]) => ({ days: formatDayList(group.days), time }));
+}
+
 export async function getPublishedContent(): Promise<PublishedContent | null> {
   if (!client) return null;
 
