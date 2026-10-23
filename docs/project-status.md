@@ -1,7 +1,7 @@
 # Hey! Cafe Project Status
 
-**Date and time:** 2026-10-23 19:45 PM TST
-**Project stage:** UI/UX polished and logo integrated; uncommitted — pending review, build verification, and commit to main
+**Date and time:** 2026-10-23 23:55 PM TST
+**Project stage:** UI/UX polished, logo removed from header/footer, hardcoded fallback copy cleaned up; all changes committed and pushed to main
 
 ## Done
 
@@ -46,23 +46,25 @@
 - Fixed opening hours display: added `formatTime()` utility to `src/lib/cafe-content.ts` that converts 24-hour time strings to 12-hour AM/PM format for customer-facing display. Applied it to both open and close fields in `src/app/page.tsx`. Build verified and deployed; hours now display as e.g. `3:00 PM - 10:30 PM` instead of `15:00 - 22:30`.
 - Updated the browser tab title from "Hey! Cafe | Concept Menu" to "Hey! Cafe — Menu" in `src/app/layout.tsx` metadata.
 - Added the Hey! Cafe logo (`icon.png`) to `src/app/` using Next.js App Router's file-based favicon convention. The circular red-and-white "HEY! Cafe" badge now displays as the browser tab icon, replacing the default Next.js favicon. Source logo archived in `docs/icons/hey-cafe-logo.png`.
-- Performed full UI/UX polish pass (triggered by Cursor): rewrote `globals.css` with a new design system (`--paper`, `--ink`, `--tomato`, `--mint`, `--blue`, `--yellow` tokens), replaced the old header markup with a clean sticky header using a circular logo `<img>`, removed placeholder numbering from category nav and headings, tightened all copy (eyebrows, CTAs, visit section), added `isPlaceholderIntro()` guard so the intro description never shows a raw placeholder, refactored hours rendering to use the new `formatHoursGroups()` utility, added logo to the footer, and applied full mobile-responsive breakpoints (960px, 720px, 600px) including sticky category nav on mobile.
+- Performed full UI/UX polish pass (triggered by Cursor): rewrote `globals.css` with a new design system (`--paper`, `--ink`, `--tomato`, `--mint`, `--blue`, `--yellow` tokens), replaced the old header markup with a clean sticky header, removed placeholder numbering from category nav and headings, tightened all copy (eyebrows, CTAs, visit section), added `isPlaceholderIntro()` guard so the intro description never shows a raw placeholder, refactored hours rendering to use the new `formatHoursGroups()` utility, and applied full mobile-responsive breakpoints (960px, 720px, 600px) including sticky category nav on mobile. Committed and pushed to `main`.
 - Added `formatHoursGroups()` to `src/lib/cafe-content.ts`: groups days sharing the same hours into a single row (e.g. "Mon, Wed & Thu · 3:00 PM – 10:30 PM"), sorts open days before closed days, and replaces the previous raw per-day loop in `page.tsx`.
 - Updated `layout.tsx` meta description from the prototype disclaimer to the real customer-facing copy: `"Espresso, signatures, and pastries at Hey! Cafe in Yati, Liloan, Cebu."`
+- Committed `public/hey-cafe-logo.png` which was previously untracked, fixing the black circle placeholder shown in the header and footer on the live site.
+- Fixed hardcoded fallback intro copy in `src/app/page.tsx`: replaced the location-specific string ("Neighborhood cafe in Yati, Liloan...") with a generic location-agnostic fallback so stale address or hours info can never appear if the CMS field is accidentally wiped.
+- Removed logo `<img>` from the header wordmark and footer brand in `src/app/page.tsx`; both now display the cafe name text only. Removed associated `.brand-logo`, `.footer-logo`, and related responsive CSS rules from `src/app/globals.css`. Removed unused `logoSrc` and `logoAlt` variable declarations.
 
 ## Deferred Until Production Readiness
 
 - Sanity Studio's Releases screen has a runtime error. Standard document publishing works; investigate the Releases issue only if scheduled publishing is required.
 - Remaining 16 dev-tree vulnerabilities (`braces`, `js-yaml`, `sprintf-js`) have no patched upstream versions available. Re-check after future `sanity` or `eslint-config-next` releases before launch.
+- Consider adding a logo upload field in Sanity Site Settings and re-wiring the header/footer to display it dynamically once the cafe provides an approved logo asset.
 
 ## TO DO LIST
 
-- Run `npm run build` locally to verify the UI/UX polish changes compile without TypeScript or lint errors before committing.
-- Commit and push the four modified files (`src/app/page.tsx`, `src/app/globals.css`, `src/app/layout.tsx`, `src/lib/cafe-content.ts`) to `main` and confirm Cloudflare deploys successfully.
-- Review the polished UI live at `hey-cafe-web.pages.dev` after deployment and check for any visual regressions on mobile and desktop.
+- Update the **Short introduction** field in Sanity Studio (`hey-cafe.sanity.studio`) from the current placeholder ("Welcome to Hey! Cafe. Our menu and cafe details are coming soon.") to real customer-facing copy, then publish to trigger a live site rebuild.
 - Complete client approval and production launch checks: confirm live URL with cafe owner, agree on account ownership (Sanity, Cloudflare, GitHub), and confirm billing contacts.
 - Walk the cafe owner through the live demo at `hey-cafe-web.pages.dev` and the Studio at `hey-cafe.sanity.studio` using the handoff guide in `docs/handoff-guide.md`.
-- Obtain cafe-owner approval and the real menu, prices, categories, product photos, logo, location, hours, and contact/social details before replacing demo content. (Do last — after client walkthrough and handoff docs are confirmed.)
+- Obtain cafe-owner approval and the real menu, prices, categories, product photos, location, hours, and contact/social details before replacing demo content. (Do last — after client walkthrough and handoff docs are confirmed.)
 - Delete demo content from the production Sanity dataset and replace with real cafe-approved menu items, categories, photos, and descriptions once the owner supplies and approves them.
 
 ## Vulnerability Status (Dev-Only)
