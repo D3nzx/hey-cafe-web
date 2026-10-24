@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "node -e \"require('node:fs').rmSync('.next/cache/fetch-cache',{recursive:true,force:true})\" && next build",
-    "studio": "cd studio && sanity dev --port 3333",
+    "studio": "cd studio && node ../node_modules/sanity/bin/sanity dev --port 3333",
     "lint": "eslint",
     "test": "node --experimental-strip-types --test src/lib/sanity-webhook.test.ts"
   },

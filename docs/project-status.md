@@ -1,7 +1,7 @@
 # Hey! Cafe Project Status
 
-**Date and time:** 2026-10-23 23:55 PM TST
-**Project stage:** UI/UX polished, logo removed from header/footer, hardcoded fallback copy cleaned up; all changes committed and pushed to main
+**Date and time:** 2026-10-24 02:53 PM TST
+**Project stage:** Local Studio startup stabilized; production content replacement, client approval, and final launch handoff remain in progress.
 
 ## Done
 
@@ -42,16 +42,19 @@
 - Wrote handoff documentation in `docs/handoff-guide.md` covering: live site URL, Studio URL, sign-in instructions using the cafe Gmail, how to add categories and menu items with photos, how to edit and remove items, photo tips, how the publish-to-live flow works, the optional menu PDF field, quick reference table, and support contact.
 - Created demo content guide in `docs/demo-content.md` with 4 categories, 16 sample menu items with prices and descriptions, photo search terms per item, and step-by-step Studio entry instructions for client preview testing.
 - Populated the production Sanity dataset with demo content: 4 categories (Espresso, Signature Drinks, Non-Coffee, Pastries), 16 menu items with photos sourced from Google Images, confirmed all items appear correctly on the live site at `hey-cafe-web.pages.dev`.
-- Entered real cafe information into Sanity: address (Sta. Catalina Subdivision, Yati, Liloan, Cebu), confirmed opening hours from the cafe's Facebook page (Mon/Wed/Thu/Sun: 3:00 PM – 10:30 PM; Fri/Sat: 3:00 PM – 12:00 AM; Tue: Closed), phone number, and social links.
+- Entered real cafe information into Sanity: address (Sta. Catalina Subdivision, Yati, Liloan, Cebu), confirmed opening hours from the cafe's Facebook page (Mon/Wed/Thu/Sun: 3:00 PM - 10:30 PM; Fri/Sat: 3:00 PM - 12:00 AM; Tue: Closed), phone number, and social links.
 - Fixed opening hours display: added `formatTime()` utility to `src/lib/cafe-content.ts` that converts 24-hour time strings to 12-hour AM/PM format for customer-facing display. Applied it to both open and close fields in `src/app/page.tsx`. Build verified and deployed; hours now display as e.g. `3:00 PM - 10:30 PM` instead of `15:00 - 22:30`.
 - Updated the browser tab title from "Hey! Cafe | Concept Menu" to "Hey! Cafe — Menu" in `src/app/layout.tsx` metadata.
 - Added the Hey! Cafe logo (`icon.png`) to `src/app/` using Next.js App Router's file-based favicon convention. The circular red-and-white "HEY! Cafe" badge now displays as the browser tab icon, replacing the default Next.js favicon. Source logo archived in `docs/icons/hey-cafe-logo.png`.
 - Performed full UI/UX polish pass (triggered by Cursor): rewrote `globals.css` with a new design system (`--paper`, `--ink`, `--tomato`, `--mint`, `--blue`, `--yellow` tokens), replaced the old header markup with a clean sticky header, removed placeholder numbering from category nav and headings, tightened all copy (eyebrows, CTAs, visit section), added `isPlaceholderIntro()` guard so the intro description never shows a raw placeholder, refactored hours rendering to use the new `formatHoursGroups()` utility, and applied full mobile-responsive breakpoints (960px, 720px, 600px) including sticky category nav on mobile. Committed and pushed to `main`.
-- Added `formatHoursGroups()` to `src/lib/cafe-content.ts`: groups days sharing the same hours into a single row (e.g. "Mon, Wed & Thu · 3:00 PM – 10:30 PM"), sorts open days before closed days, and replaces the previous raw per-day loop in `page.tsx`.
+- Added `formatHoursGroups()` to `src/lib/cafe-content.ts`: groups days sharing the same hours into a single row (e.g. "Mon, Wed & Thu · 3:00 PM - 10:30 PM"), sorts open days before closed days, and replaces the previous raw per-day loop in `page.tsx`.
 - Updated `layout.tsx` meta description from the prototype disclaimer to the real customer-facing copy: `"Espresso, signatures, and pastries at Hey! Cafe in Yati, Liloan, Cebu."`
 - Committed `public/hey-cafe-logo.png` which was previously untracked, fixing the black circle placeholder shown in the header and footer on the live site.
 - Fixed hardcoded fallback intro copy in `src/app/page.tsx`: replaced the location-specific string ("Neighborhood cafe in Yati, Liloan...") with a generic location-agnostic fallback so stale address or hours info can never appear if the CMS field is accidentally wiped.
 - Removed logo `<img>` from the header wordmark and footer brand in `src/app/page.tsx`; both now display the cafe name text only. Removed associated `.brand-logo`, `.footer-logo`, and related responsive CSS rules from `src/app/globals.css`. Removed unused `logoSrc` and `logoAlt` variable declarations.
+- Updated the root `npm run studio` command to launch Sanity's installed CLI through its package entry point while running from the Studio directory, resolving Windows and nested dependency executable issues.
+- Diagnosed and repaired local Sanity Studio startup failures caused by stale Vite dependency optimization output, cleared only generated Studio cache files, and verified Studio regenerated its dependency modules and returned HTTP 200.
+- Confirmed the local Sanity Studio loads successfully and the current Site Settings document is available in the Studio structure editor.
 
 ## Deferred Until Production Readiness
 
@@ -62,9 +65,10 @@
 ## TO DO LIST
 
 - Update the **Short introduction** field in Sanity Studio (`hey-cafe.sanity.studio`) from the current placeholder ("Welcome to Hey! Cafe. Our menu and cafe details are coming soon.") to real customer-facing copy, then publish to trigger a live site rebuild.
+- Verify the corrected local Studio startup after a fresh terminal session and remove stale generated Studio cache artifacts if Vite dependencies become outdated again.
 - Complete client approval and production launch checks: confirm live URL with cafe owner, agree on account ownership (Sanity, Cloudflare, GitHub), and confirm billing contacts.
 - Walk the cafe owner through the live demo at `hey-cafe-web.pages.dev` and the Studio at `hey-cafe.sanity.studio` using the handoff guide in `docs/handoff-guide.md`.
-- Obtain cafe-owner approval and the real menu, prices, categories, product photos, location, hours, and contact/social details before replacing demo content. (Do last — after client walkthrough and handoff docs are confirmed.)
+- Obtain cafe-owner approval and the real menu, prices, categories, product photos, location, hours, and contact/social details before replacing demo content. (Do last - after client walkthrough and handoff docs are confirmed.)
 - Delete demo content from the production Sanity dataset and replace with real cafe-approved menu items, categories, photos, and descriptions once the owner supplies and approves them.
 
 ## Vulnerability Status (Dev-Only)
@@ -72,8 +76,8 @@
 `npm audit --omit=dev` = **0 production vulnerabilities**
 
 Remaining 16 dev-tree vulnerabilities after review:
-- `braces <=3.0.3` — no patched version published by upstream maintainer yet; affects `@sanity/cli` and `eslint-config-next` glob chains
-- `js-yaml <=3.15.2` — nested inside `@vercel/frameworks` inside `@sanity/cli`; fix requires Sanity to update their CLI
-- `sprintf-js *` — nested inside `argparse` inside the `js-yaml` chain above
+- `braces <=3.0.3` - no patched version published by upstream maintainer yet; affects `@sanity/cli` and `eslint-config-next` glob chains
+- `js-yaml <=3.15.2` - nested inside `@vercel/frameworks` inside `@sanity/cli`; fix requires Sanity to update their CLI
+- `sprintf-js *` - nested inside `argparse` inside the `js-yaml` chain above
 
 These are CLI and linting tools only. They do not run in the browser or in the production Cloudflare deployment. Re-check after future `sanity` or `eslint-config-next` releases.
