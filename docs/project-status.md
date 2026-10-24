@@ -1,7 +1,7 @@
 # Hey! Cafe Project Status
 
-**Date and time:** 2026-10-24 02:53 PM TST
-**Project stage:** Local Studio startup stabilized; production content replacement, client approval, and final launch handoff remain in progress.
+**Date and time:** 2026-10-24 03:26 PM TST
+**Project stage:** Client walkthrough and approved production content replacement are in progress.
 
 ## Done
 
@@ -54,7 +54,8 @@
 - Removed logo `<img>` from the header wordmark and footer brand in `src/app/page.tsx`; both now display the cafe name text only. Removed associated `.brand-logo`, `.footer-logo`, and related responsive CSS rules from `src/app/globals.css`. Removed unused `logoSrc` and `logoAlt` variable declarations.
 - Updated the root `npm run studio` command to launch Sanity's installed CLI through its package entry point while running from the Studio directory, resolving Windows and nested dependency executable issues.
 - Diagnosed and repaired local Sanity Studio startup failures caused by stale Vite dependency optimization output, cleared only generated Studio cache files, and verified Studio regenerated its dependency modules and returned HTTP 200.
-- Confirmed the local Sanity Studio loads successfully and the current Site Settings document is available in the Studio structure editor.
+- Verified the corrected local Sanity Studio startup after a fresh terminal session and confirmed the current Site Settings document remains available in the Studio structure editor.
+- Replaced the placeholder **Short introduction** in Sanity Studio with real customer-facing copy and published it so the live site rebuilds and displays the approved introduction.
 
 ## Deferred Until Production Readiness
 
@@ -64,12 +65,11 @@
 
 ## TO DO LIST
 
-- Update the **Short introduction** field in Sanity Studio (`hey-cafe.sanity.studio`) from the current placeholder ("Welcome to Hey! Cafe. Our menu and cafe details are coming soon.") to real customer-facing copy, then publish to trigger a live site rebuild.
-- Verify the corrected local Studio startup after a fresh terminal session and remove stale generated Studio cache artifacts if Vite dependencies become outdated again.
-- Complete client approval and production launch checks: confirm live URL with cafe owner, agree on account ownership (Sanity, Cloudflare, GitHub), and confirm billing contacts.
+- Complete client approval and production launch checks: confirm the live URL with the cafe owner, agree on account ownership and recovery access for Sanity, Cloudflare, and GitHub, and confirm billing contacts.
 - Walk the cafe owner through the live demo at `hey-cafe-web.pages.dev` and the Studio at `hey-cafe.sanity.studio` using the handoff guide in `docs/handoff-guide.md`.
-- Obtain cafe-owner approval and the real menu, prices, categories, product photos, location, hours, and contact/social details before replacing demo content. (Do last - after client walkthrough and handoff docs are confirmed.)
-- Delete demo content from the production Sanity dataset and replace with real cafe-approved menu items, categories, photos, and descriptions once the owner supplies and approves them.
+- Obtain the cafe owner's approval and real menu, prices, categories, product photos, descriptions, location, hours, and contact/social details before replacing demo content.
+- Delete demo content from the production Sanity dataset and replace it with real cafe-approved menu items, categories, photos, and descriptions once the owner supplies and approves them.
+- Complete final mobile, desktop, accessibility, publishing-flow, and failed-build recovery checks against the real production content.
 
 ## Vulnerability Status (Dev-Only)
 
