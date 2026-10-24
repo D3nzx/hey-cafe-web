@@ -17,6 +17,7 @@ node_modules/
 /.next/
 /out/
 /studio/.sanity/
+/studio/dist/
 
 # production
 /build

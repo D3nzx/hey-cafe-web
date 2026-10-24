@@ -80,7 +80,7 @@ Create the following document types in Sanity:
 - Location and directions/map link, if provided
 - Operating hours
 - Contact details
-- Facebook and Instagram URLs
+- Facebook, Instagram, and TikTok URLs
 - Optional approved introduction
 
 ### Site settings

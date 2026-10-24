@@ -1,5 +1,8 @@
+import { cache } from "react";
 import { createImageUrlBuilder, type SanityImageSource } from "@sanity/image-url";
 import { createClient } from "@sanity/client";
+
+export const DEFAULT_CAFE_NAME = "Hey! Cafe";
 
 export type MenuCategory = {
   name: string;
@@ -12,6 +15,7 @@ export type MenuItem = {
   description: string;
   category: string;
   price: number;
+  featured?: boolean;
   image: string | null;
   imageAlt: string;
   availability: "available" | "unavailable";
@@ -32,11 +36,16 @@ export type CafeInformation = {
   phone?: string;
   facebookUrl?: string;
   instagramUrl?: string;
+  tiktokUrl?: string;
   introduction?: string;
 };
 
 export type SiteSettings = {
+  heroHeadline?: string;
+  menuHeading?: string;
+  visitHeading?: string;
   cafeName?: string;
+  footerCopyright?: string;
   logo?: { url: string; alt: string } | null;
 };
 
@@ -72,6 +81,7 @@ const CAFE_CONTENT_QUERY = `{
     "description": coalesce(description, ""),
     "category": category->slug.current,
     price,
+    "featured": featured == true,
     image,
     "imageAlt": coalesce(image.alt, name),
     "availability": select(available == true => "available", "unavailable")
@@ -84,10 +94,15 @@ const CAFE_CONTENT_QUERY = `{
     phone,
     facebookUrl,
     instagramUrl,
+    tiktokUrl,
     introduction
   },
   "siteSettings": *[_type == "siteSettings"][0] {
+    heroHeadline,
+    menuHeading,
+    visitHeading,
     cafeName,
+    footerCopyright,
     logo,
     "logoAlt": coalesce(logo.alt, cafeName)
   }
@@ -103,9 +118,17 @@ type QueryResult = {
   }) | null;
 };
 
-function imageUrl(source: SanityImageSource | null | undefined): string | null {
+function imageUrl(
+  source: SanityImageSource | null | undefined,
+  width = 1000,
+): string | null {
   if (!source || !imageBuilder) return null;
-  return imageBuilder.image(source).width(1000).auto("format").url();
+  return imageBuilder.image(source).width(width).auto("format").url();
+}
+
+export function isPlaceholderIntro(text: string | undefined): boolean {
+  if (!text?.trim()) return true;
+  return /coming soon|to be confirmed|placeholder|lorem/i.test(text);
 }
 
 /**
@@ -179,11 +202,11 @@ export function formatHoursGroups(hours: CafeHours[]): { days: string; time: str
     .map(([time, group]) => ({ days: formatDayList(group.days), time }));
 }
 
-export async function getPublishedContent(): Promise<PublishedContent | null> {
+export const getPublishedContent = cache(async (): Promise<PublishedContent | null> => {
   if (!client) return null;
 
   const result = await client.fetch<QueryResult>(CAFE_CONTENT_QUERY);
-  const logoUrl = imageUrl(result.siteSettings?.logo);
+  const logoUrl = imageUrl(result.siteSettings?.logo, 500);
 
   return {
     categories: result.categories ?? [],
@@ -196,8 +219,12 @@ export async function getPublishedContent(): Promise<PublishedContent | null> {
       : null,
     siteSettings: result.siteSettings
       ? {
+          heroHeadline: result.siteSettings.heroHeadline,
+          menuHeading: result.siteSettings.menuHeading,
+          visitHeading: result.siteSettings.visitHeading,
           cafeName: result.siteSettings.cafeName,
-              logo: logoUrl
+          footerCopyright: result.siteSettings.footerCopyright,
+          logo: logoUrl
             ? {
                 url: logoUrl,
                 alt: result.siteSettings.logoAlt || "Cafe logo",
@@ -206,4 +233,4 @@ export async function getPublishedContent(): Promise<PublishedContent | null> {
         }
       : null,
   };
-}
+});

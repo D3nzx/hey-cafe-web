@@ -1,7 +1,7 @@
 # Hey! Cafe Project Status
 
-**Date and time:** 2026-10-24 03:26 PM TST
-**Project stage:** Client walkthrough and approved production content replacement are in progress.
+**Date and time:** 2026-10-24 11:52 PM TST
+**Project stage:** Client walkthrough and pre-launch approval are in progress; recent local UI and CMS refinements are complete.
 
 ## Done
 
@@ -56,17 +56,37 @@
 - Diagnosed and repaired local Sanity Studio startup failures caused by stale Vite dependency optimization output, cleared only generated Studio cache files, and verified Studio regenerated its dependency modules and returned HTTP 200.
 - Verified the corrected local Sanity Studio startup after a fresh terminal session and confirmed the current Site Settings document remains available in the Studio structure editor.
 - Replaced the placeholder **Short introduction** in Sanity Studio with real customer-facing copy and published it so the live site rebuilds and displays the approved introduction.
+- Connected the published Sanity cafe name and logo to the website header, footer, page metadata, and browser icons; the footer location now uses the Sanity cafe address. Kept the existing hours formatting and grouping helpers, which format hours fetched from Sanity.
+- Added editable **Hero headline**, **Menu section heading**, and **Visit section heading** fields to Sanity Site Settings and connected them to the homepage. Removed the production welcome eyebrow; the existing sample eyebrow remains limited to concept-preview mode. Updated the handoff guide with instructions for editing the headings.
+- Connected the Sanity menu item's **Featured** value to the frontend and display a badge on featured item cards without changing menu ordering. Updated the handoff guide to explain the badge.
+- Added an optional TikTok page URL to Sanity Cafe Information and connected it to the public **Say hello** links. Documented social-link management in the handoff guide.
+- Added compact location, clock, and message icons to the visit-detail headings and a phone icon beside the tap-to-call number.
+- Simplified the footer to show the cafe branding, optional Sanity-managed copyright text (or an automatically generated current-year and cafe-name line), and Back to top; removed the repeated address.
+- Hid the category navigation scrollbar on mobile while preserving horizontal swipe, trackpad, and keyboard scrolling. Hid the page's vertical scrollbar while preserving normal vertical page scrolling.
+- Made the header and footer cafe branding non-clickable, leaving "Back to top" as the explicit return-to-top control.
+- Connected the published Sanity cafe name and logo to the header, footer, page title, description, and browser icons. The page uses the published cafe name with a fallback; the page metadata also uses the published intro when available.
+- Added Sanity Site Settings fields for the hero headline, menu heading, visit heading, and optional footer copyright text. Connected those fields to the website with sensible fallback copy.
+- Connected the published Featured toggle to a compact badge over the menu image and retained each item's existing category and display order.
+- Added editable TikTok URL to Sanity Cafe Information and displayed the link conditionally with Facebook and Instagram under "Say hello."
+- Added compact inline social icons beside Facebook, Instagram, and TikTok labels. Added location, hours, contact, phone, and directions icons in the Visit section. Kept text labels and verified the compact alignment in the browser.
+- Updated the map link label to "Get directions," kept its external link behavior, and placed the icon-and-text action on a separate line below the address.
+- Added two fictional sample menu items per category and photo search suggestions to `docs/demo-content.md`; these remain examples only and were not added to the production dataset.
+- Updated `docs/handoff-guide.md` to explain the new Site Settings fields, social URLs, featured badge, and current-year/custom footer copyright line.
+- Verified the latest frontend and schema changes with successful `npm run build`, `npm test`, `git diff --check`, and browser checks for the rendered icons, footer, and scrolling behavior.
 
 ## Deferred Until Production Readiness
 
 - Sanity Studio's Releases screen has a runtime error. Standard document publishing works; investigate the Releases issue only if scheduled publishing is required.
 - Remaining 16 dev-tree vulnerabilities (`braces`, `js-yaml`, `sprintf-js`) have no patched upstream versions available. Re-check after future `sanity` or `eslint-config-next` releases before launch.
-- Consider adding a logo upload field in Sanity Site Settings and re-wiring the header/footer to display it dynamically once the cafe provides an approved logo asset.
+- The hosted Sanity Studio has not yet been redeployed with the latest local schema additions. Deploy the Studio schema before expecting the Hero headline, Menu section heading, Visit section heading, Footer copyright text, and TikTok page fields to appear in the hosted editor.
+- ESLint currently fails to run because the installed `typescript-eslint` integration does not support TypeScript 7.0. Re-check after upstream compatibility is released; production build and tests pass.
 
 ## TO DO LIST
 
-- Complete client approval and production launch checks: confirm the live URL with the cafe owner, agree on account ownership and recovery access for Sanity, Cloudflare, and GitHub, and confirm billing contacts.
+- Complete client approval and production launch checks: confirm the live URL with the cafe owner, agree on account ownership and recovery access for Sanity, Cloudflare, and GitHub, confirm billing contacts, and confirm the approved footer copyright holder/text.
+- Deploy the updated Sanity Studio schema to `https://hey-cafe.sanity.studio/` and verify the new editable fields appear in the hosted Studio.
 - Walk the cafe owner through the live demo at `hey-cafe-web.pages.dev` and the Studio at `hey-cafe.sanity.studio` using the handoff guide in `docs/handoff-guide.md`.
+- Correct and publish the cafe name in Sanity Site Settings; the current published value appears as `Hey Cafe!h`.
 - Obtain the cafe owner's approval and real menu, prices, categories, product photos, descriptions, location, hours, and contact/social details before replacing demo content.
 - Delete demo content from the production Sanity dataset and replace it with real cafe-approved menu items, categories, photos, and descriptions once the owner supplies and approves them.
 - Complete final mobile, desktop, accessibility, publishing-flow, and failed-build recovery checks against the real production content.

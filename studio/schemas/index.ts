@@ -214,6 +214,12 @@ const cafeInfo = defineType({
       validation: (rule) => rule.uri({ scheme: ["http", "https"] }),
     }),
     defineField({
+      name: "tiktokUrl",
+      title: "TikTok page",
+      type: "url",
+      validation: (rule) => rule.uri({ scheme: ["http", "https"] }),
+    }),
+    defineField({
       name: "introduction",
       title: "Short introduction",
       type: "text",
@@ -230,10 +236,37 @@ const siteSettings = defineType({
   type: "document",
   fields: [
     defineField({
+      name: "heroHeadline",
+      title: "Hero headline",
+      type: "text",
+      rows: 2,
+      description: "Main heading shown in the website hero. Use a new line to control the line break.",
+      validation: (rule) => rule.max(120),
+    }),
+    defineField({
+      name: "menuHeading",
+      title: "Menu section heading",
+      type: "string",
+      validation: (rule) => rule.max(120),
+    }),
+    defineField({
+      name: "visitHeading",
+      title: "Visit section heading",
+      type: "string",
+      validation: (rule) => rule.max(120),
+    }),
+    defineField({
       name: "cafeName",
       title: "Cafe name",
       type: "string",
       validation: (rule) => rule.max(80),
+    }),
+    defineField({
+      name: "footerCopyright",
+      title: "Footer copyright text",
+      type: "string",
+      description: "Optional custom copyright text. Leave blank to show the current year and cafe name automatically.",
+      validation: (rule) => rule.max(120),
     }),
     defineField({
       name: "logo",

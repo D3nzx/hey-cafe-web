@@ -43,6 +43,8 @@ Go to **Menu Item** in the Studio sidebar. For each item:
 | Americano | 85 | Bold espresso with hot water, clean and strong | No | 2 |
 | Cappuccino | 110 | Espresso with steamed milk and a thick layer of foam | Yes | 3 |
 | Cafe Latte | 115 | Smooth espresso with creamy steamed milk | Yes | 4 |
+| Flat White | 120 | Double espresso balanced with silky steamed milk | No | 5 |
+| Cafe Mocha | 130 | Espresso with chocolate and steamed milk | Yes | 6 |
 
 ---
 
@@ -54,6 +56,8 @@ Go to **Menu Item** in the Studio sidebar. For each item:
 | Salted Caramel Latte | 130 | Espresso with salted caramel syrup and steamed milk | Yes | 2 |
 | Ube Latte | 130 | Espresso blended with creamy ube flavoring | Yes | 3 |
 | Strawberry Matcha | 135 | Layered strawberry and matcha with fresh milk | Yes | 4 |
+| Spanish Latte | 135 | Espresso with creamy milk and a touch of sweetness | Yes | 5 |
+| Pandan Coconut Latte | 145 | Creamy latte with pandan and coconut notes | No | 6 |
 
 ---
 
@@ -65,6 +69,8 @@ Go to **Menu Item** in the Studio sidebar. For each item:
 | Chocolate Milk | 95 | Rich and creamy hot or iced chocolate | No | 2 |
 | Strawberry Soda | 95 | Refreshing strawberry syrup with sparkling water | No | 3 |
 | Matcha Latte | 120 | Japanese matcha with steamed fresh milk | Yes | 4 |
+| Honey Lemon Tea | 100 | Bright lemon tea lightly sweetened with honey | No | 5 |
+| Mango Yakult Fizz | 115 | Mango and yogurt drink topped with sparkling water | No | 6 |
 
 ---
 
@@ -76,6 +82,8 @@ Go to **Menu Item** in the Studio sidebar. For each item:
 | Banana Loaf | 70 | Classic moist banana bread, sliced to order | No | 2 |
 | Chocolate Muffin | 70 | Moist chocolate muffin with chocolate chips | No | 3 |
 | Butter Croissant | 75 | Flaky golden croissant, baked fresh daily | Yes | 4 |
+| Cinnamon Roll | 85 | Soft roll with cinnamon sugar and a light glaze | Yes | 5 |
+| Fudgy Brownie | 80 | Rich chocolate brownie with a soft, fudgy center | No | 6 |
 
 ---
 
@@ -91,18 +99,26 @@ Aim for square or portrait photos with a clean, simple background — these look
 | Americano | `americano coffee black` |
 | Cappuccino | `cappuccino latte art cafe` |
 | Cafe Latte | `cafe latte steamed milk` |
+| Flat White | `flat white coffee cup` |
+| Cafe Mocha | `cafe mocha chocolate coffee` |
 | Brown Sugar Milk Tea | `brown sugar milk tea boba` |
 | Salted Caramel Latte | `salted caramel latte iced` |
 | Ube Latte | `ube latte philippines purple` |
 | Strawberry Matcha | `strawberry matcha layered drink` |
+| Spanish Latte | `spanish latte coffee` |
+| Pandan Coconut Latte | `pandan coconut latte` |
 | Chamomile Tea | `chamomile tea cup herbal` |
 | Chocolate Milk | `chocolate milk iced cafe` |
 | Strawberry Soda | `strawberry soda sparkling drink` |
 | Matcha Latte | `matcha latte green milk` |
+| Honey Lemon Tea | `honey lemon tea iced` |
+| Mango Yakult Fizz | `mango yogurt sparkling drink` |
 | Cheese Ensaymada | `cheese ensaymada philippines` |
 | Banana Loaf | `banana loaf slice bread` |
 | Chocolate Muffin | `chocolate muffin bakery` |
 | Butter Croissant | `butter croissant flaky golden` |
+| Cinnamon Roll | `cinnamon roll glaze bakery` |
+| Fudgy Brownie | `fudgy chocolate brownie` |
 
 > **Image Alt Text examples** (copy and paste into the alt text field):
 > - `Cappuccino with latte art in a white ceramic cup`

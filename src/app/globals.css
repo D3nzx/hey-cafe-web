@@ -24,6 +24,12 @@
 
 html {
   scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
 }
 
 body {
@@ -32,6 +38,12 @@ body {
   color: var(--ink);
   font-family: var(--font-geist-sans), sans-serif;
   -webkit-font-smoothing: antialiased;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+body::-webkit-scrollbar {
+  display: none;
 }
 
 a {
@@ -90,6 +102,13 @@ a:focus-visible {
   align-items: center;
   gap: 12px;
   min-width: 0;
+}
+
+.brand-logo {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  object-fit: contain;
 }
 
 .wordmark-text {
@@ -160,6 +179,7 @@ a:focus-visible {
   font-size: 56px;
   font-weight: 500;
   line-height: 0.98;
+  white-space: pre-line;
 }
 
 .intro-description {
@@ -256,8 +276,13 @@ a:focus-visible {
   overflow-x: auto;
   margin: 28px 0 36px;
   padding: 4px 0 10px;
-  scrollbar-width: thin;
-  scrollbar-color: #b9bdb5 transparent;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  touch-action: pan-x;
+}
+
+.category-nav::-webkit-scrollbar {
+  display: none;
 }
 
 .category-nav a {
@@ -318,6 +343,7 @@ a:focus-visible {
 }
 
 .menu-item {
+  position: relative;
   min-width: 0;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -367,6 +393,24 @@ a:focus-visible {
   right: 10px;
   background: var(--yellow);
   color: var(--ink);
+}
+
+.featured-badge {
+  position: absolute;
+  z-index: 1;
+  top: 10px;
+  left: 10px;
+  display: inline-flex;
+  min-height: 24px;
+  align-items: center;
+  padding: 0 9px;
+  border-radius: 999px;
+  background: rgb(32 37 34 / 88%);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .item-copy { padding: 16px 16px 18px; }
@@ -496,9 +540,20 @@ a:focus-visible {
 }
 
 .visit-details dt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   margin: 14px 0 10px;
   font-family: Georgia, "Times New Roman", serif;
   font-size: 20px;
+}
+
+.visit-icon {
+  display: block;
+  width: 17px;
+  height: 17px;
+  flex: 0 0 auto;
+  color: var(--ink);
 }
 
 .visit-details dd {
@@ -534,6 +589,30 @@ a:focus-visible {
   text-underline-offset: 3px;
 }
 
+.visit-details .social-link {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.visit-details .directions-link {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.visit-details .social-icon {
+  display: block;
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+}
+
+.visit-details .visit-icon {
+  width: 16px;
+  height: 16px;
+}
+
 .site-footer {
   display: flex;
   min-height: 84px;
@@ -554,7 +633,14 @@ a:focus-visible {
   font-weight: 700;
 }
 
-.site-footer p,
+.footer-logo {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
+.footer-copyright,
 .site-footer > a:last-child {
   margin: 0;
   color: #c3cbc5;
@@ -596,6 +682,7 @@ a:focus-visible {
   .header-inner { height: 64px; }
 
   .wordmark { gap: 10px; }
+  .brand-logo { width: 40px; height: 40px; }
   .wordmark-text { font-size: 20px; }
 
   .primary-nav {
@@ -695,14 +782,18 @@ a:focus-visible {
   .visit-details dt { margin: 12px 0 8px; }
 
   .site-footer {
+    display: grid;
     min-height: 76px;
+    grid-template-columns: 1fr auto;
+    row-gap: 10px;
     padding: 14px 16px;
   }
 
   .footer-brand { font-size: 16px; }
 
-  .site-footer p {
-    display: none;
+  .footer-copyright {
+    grid-column: 1 / -1;
+    font-size: 12px;
   }
 }
 

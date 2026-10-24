@@ -60,7 +60,7 @@ This is where you add, edit, and publish your menu items, categories, prices, ph
    - **Image** — click to upload a product photo (see photo tips below)
    - **Image Alt Text** — describe the photo briefly, e.g. `Iced caramel latte in a tall glass`
    - **Available** — toggle on if the item is currently for sale
-   - **Featured** — toggle on for best-sellers or highlighted items
+   - **Featured** — toggle on for best-sellers or highlighted items; featured items show a badge on the website
    - **Display Order** — controls order within the category
 4. Click **"Publish"** in the bottom right
 
@@ -93,6 +93,14 @@ Always publish or unpublish rather than leaving items in draft if you want chang
 Publishing in Sanity Studio automatically triggers a rebuild of the live website. The update usually appears within **2–5 minutes**. If it takes longer, try refreshing the live site after a few minutes.
 
 If you unpublish or delete content, the site rebuilds and that content is removed — also within a few minutes.
+
+## Add or Update Social Links
+
+In **Cafe information**, enter the cafe's public Facebook, Instagram, and TikTok page URLs. Publish the document for the icon-and-name links to appear under **"Say hello"** on the website. Leave a field empty if the cafe does not use that platform.
+
+## Update Site Branding
+
+In the Studio, open **"Site Settings"** to update the cafe name, logo, **"Hero headline"**, **"Menu section heading"**, **"Visit section heading"**, and optional **"Footer copyright text"**. The hero headline supports a new line to choose where it breaks onto the next line. Leave the footer copyright field blank to use the current year and cafe name automatically; because the website is statically built, the year updates on the next website build/deployment. Publish your changes; they appear on the website after the rebuild finishes.
 
 ---
 
