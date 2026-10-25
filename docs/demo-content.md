@@ -11,7 +11,7 @@ Go to **Menu Category** in the Studio sidebar and add these four entries.
 Fill in the Name, click **Generate** for the Slug, set the Display Order, toggle **Active on**, then **Publish** each one before moving to the next.
 
 | Name | Slug | Display Order | Active |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | Espresso | espresso | 1 | ✅ |
 | Signature Drinks | signature-drinks | 2 | ✅ |
 | Non-Coffee | non-coffee | 3 | ✅ |
@@ -22,6 +22,7 @@ Fill in the Name, click **Generate** for the Slug, set the Display Order, toggle
 ## Step 2 — Add Menu Items
 
 Go to **Menu Item** in the Studio sidebar. For each item:
+
 1. Fill in Name, click **Generate** for Slug
 2. Select the correct **Category**
 3. Enter the **Price** (numbers only, no ₱ sign)
@@ -38,7 +39,7 @@ Go to **Menu Item** in the Studio sidebar. For each item:
 ### Espresso
 
 | Name | Price (PHP) | Description | Featured | Display Order |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | Espresso Shot | 70 | Single shot of freshly pulled espresso | No | 1 |
 | Americano | 85 | Bold espresso with hot water, clean and strong | No | 2 |
 | Cappuccino | 110 | Espresso with steamed milk and a thick layer of foam | Yes | 3 |
@@ -51,7 +52,7 @@ Go to **Menu Item** in the Studio sidebar. For each item:
 ### Signature Drinks
 
 | Name | Price (PHP) | Description | Featured | Display Order |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | Brown Sugar Milk Tea | 120 | Creamy milk tea with caramelized brown sugar drizzle | Yes | 1 |
 | Salted Caramel Latte | 130 | Espresso with salted caramel syrup and steamed milk | Yes | 2 |
 | Ube Latte | 130 | Espresso blended with creamy ube flavoring | Yes | 3 |
@@ -64,7 +65,7 @@ Go to **Menu Item** in the Studio sidebar. For each item:
 ### Non-Coffee
 
 | Name | Price (PHP) | Description | Featured | Display Order |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | Chamomile Tea | 85 | Calming floral herbal tea, served hot | No | 1 |
 | Chocolate Milk | 95 | Rich and creamy hot or iced chocolate | No | 2 |
 | Strawberry Soda | 95 | Refreshing strawberry syrup with sparkling water | No | 3 |
@@ -77,7 +78,7 @@ Go to **Menu Item** in the Studio sidebar. For each item:
 ### Pastries
 
 | Name | Price (PHP) | Description | Featured | Display Order |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | Cheese Ensaymada | 65 | Soft fluffy ensaymada topped with cheese and sugar | Yes | 1 |
 | Banana Loaf | 70 | Classic moist banana bread, sliced to order | No | 2 |
 | Chocolate Muffin | 70 | Moist chocolate muffin with chocolate chips | No | 3 |
@@ -94,7 +95,7 @@ Right-click a photo → **Save image as**, then upload it in the Studio image fi
 Aim for square or portrait photos with a clean, simple background — these look best on the site.
 
 | Item | Suggested Search |
-|---|---|
+| --- | --- |
 | Espresso Shot | `espresso shot cafe` |
 | Americano | `americano coffee black` |
 | Cappuccino | `cappuccino latte art cafe` |
@@ -121,6 +122,7 @@ Aim for square or portrait photos with a clean, simple background — these look
 | Fudgy Brownie | `fudgy chocolate brownie` |
 
 > **Image Alt Text examples** (copy and paste into the alt text field):
+>
 > - `Cappuccino with latte art in a white ceramic cup`
 > - `Iced ube latte in a tall glass with purple swirl`
 > - `Cheese ensaymada on a wooden plate`
@@ -132,7 +134,7 @@ Aim for square or portrait photos with a clean, simple background — these look
 
 After publishing a few items, wait **2–3 minutes** then open:
 
-**https://hey-cafe-web.pages.dev**
+**[https://hey-cafe-web.pages.dev](https://hey-cafe-web.pages.dev)**
 
 The published categories and items should appear on the page.
 If nothing shows yet, wait another minute and do a hard refresh (`Ctrl + Shift + R`).

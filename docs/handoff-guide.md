@@ -8,7 +8,7 @@
 
 ## Your Website
 
-**Live site:** https://hey-cafe-web.pages.dev
+**Live site:** [https://hey-cafe-web.pages.dev](https://hey-cafe-web.pages.dev)
 
 This is your public menu and cafe information page. Customers can browse it on any phone or computer. No login is needed to view it.
 
@@ -16,7 +16,7 @@ This is your public menu and cafe information page. Customers can browse it on a
 
 ## Your Content Editor (Sanity Studio)
 
-**Studio URL:** https://hey-cafe.sanity.studio
+**Studio URL:** [https://hey-cafe.sanity.studio](https://hey-cafe.sanity.studio)
 
 This is where you add, edit, and publish your menu items, categories, prices, photos, and cafe details. You manage everything here — no code editing required.
 
@@ -24,7 +24,7 @@ This is where you add, edit, and publish your menu items, categories, prices, ph
 
 ## How to Sign In
 
-1. Go to https://hey-cafe.sanity.studio
+1. Go to [https://hey-cafe.sanity.studio](https://hey-cafe.sanity.studio)
 2. Click **"Continue with Google"**
 3. Sign in using the cafe Gmail account:  
    **`heycafe.liloan.official@gmail.com`**
@@ -124,12 +124,12 @@ Reach out before making any changes to Cloudflare, GitHub, or Sanity project set
 ## Quick Reference
 
 | What | Where |
-|---|---|
-| Live site | https://hey-cafe-web.pages.dev |
-| Content editor | https://hey-cafe.sanity.studio |
-| Sign-in account | heycafe.liloan.official@gmail.com |
-| Hosting (Cloudflare Pages) | https://dash.cloudflare.com |
-| Source code (GitHub) | https://github.com/D3nzx/hey-cafe-web |
+| --- | --- |
+| Live site | [https://hey-cafe-web.pages.dev](https://hey-cafe-web.pages.dev) |
+| Content editor | [https://hey-cafe.sanity.studio](https://hey-cafe.sanity.studio) |
+| Sign-in account | `heycafe.liloan.official@gmail.com` |
+| Hosting (Cloudflare Pages) | [https://dash.cloudflare.com](https://dash.cloudflare.com) |
+| Source code (GitHub) | [https://github.com/D3nzx/hey-cafe-web](https://github.com/D3nzx/hey-cafe-web) |
 
 ---
 

@@ -1,4 +1,4 @@
-Hey! Cafe Website: How It Works
+# Hey! Cafe Website: How It Works
 
 The website will give customers a simple, mobile-friendly place to browse the cafe's menu and find confirmed cafe information. It is a menu and information site, not an online ordering or payment system.
 

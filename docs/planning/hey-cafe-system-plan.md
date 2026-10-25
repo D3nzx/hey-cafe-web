@@ -16,7 +16,7 @@ The client has said they are comfortable with free hosting and plans to upload m
 ## Recommended Stack
 
 | Area | Recommendation | Why |
-|---|---|---|
+| --- | --- | --- |
 | Public website | Next.js App Router, React, TypeScript | Well-supported framework, good developer experience, and a strong portfolio choice |
 | Styling | Tailwind CSS | Efficient responsive styling and consistent layout primitives |
 | CMS | Sanity Studio and Sanity Content Lake | Hosted editor with structured content and image management; no custom admin backend to maintain |
@@ -27,8 +27,6 @@ The client has said they are comfortable with free hosting and plans to upload m
 This architecture assumes the site does not need customer accounts, online ordering, or live inventory. Revisit the design if those become requirements. Free plans, quotas, and commercial-use terms may change; verify current provider terms before launch. Free hosting is not a guarantee of zero future costs.
 
 ## System Overview
-
-
 
 ### Content publishing flow
 
@@ -45,7 +43,7 @@ Content changes are not necessarily instant: they become public after the new bu
 ## User Roles and Permissions
 
 | Role | Capabilities | Access boundary |
-|---|---|---|
+| --- | --- | --- |
 | Customer | Browse menu, categories, prices, location, hours, and social links | Public site only; no account required |
 | Cafe editor | Add and edit menu items, photos, prices, and cafe details; publish updates | Sanity Studio, with only the permissions needed for content work |
 | Cafe owner | Manage cafe content and invite or remove editors, subject to the CMS plan | Sanity organization/project administration; retain ownership of cafe accounts |

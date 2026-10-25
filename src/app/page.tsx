@@ -302,7 +302,14 @@ export default async function Home() {
             </div>
             {heroImage ? (
               <div className="intro-photo">
-                <Image src={heroImage.url} alt={heroImage.alt} fill sizes="(max-width: 600px) 280px, 360px" unoptimized />
+                <Image
+                  src={heroImage.url}
+                  alt={heroImage.alt}
+                  fill
+                  sizes="(max-width: 600px) 280px, 360px"
+                  preload
+                  unoptimized
+                />
                 {cafeInfo?.hours.length ? <CafeStatus hours={cafeInfo.hours} compact /> : null}
               </div>
             ) : conceptPreview ? (

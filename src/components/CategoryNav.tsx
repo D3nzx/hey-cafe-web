@@ -23,22 +23,54 @@ export function CategoryNav({ categories }: { categories: MenuCategory[] }) {
     const sections = categories
       .map(({ slug }) => document.getElementById(slug))
       .filter((section): section is HTMLElement => Boolean(section));
+    let animationFrame = 0;
 
-    const observer = new IntersectionObserver((entries) => {
+    const updateActiveCategory = () => {
+      animationFrame = 0;
       if (Date.now() < navigationLockUntil.current) return;
-      const visible = entries
-        .filter((entry) => entry.isIntersecting)
-        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-      if (visible[0]?.target.id) setActiveSlug(visible[0].target.id);
-    }, { rootMargin: "-96px 0px -55% 0px", threshold: 0 });
 
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
+      const trackingLine = 200;
+      const containingSection = sections.find((section) => {
+        const bounds = section.getBoundingClientRect();
+        return bounds.top <= trackingLine && bounds.bottom > trackingLine;
+      });
+      const lastPassedSection = [...sections]
+        .reverse()
+        .find((section) => section.getBoundingClientRect().top <= trackingLine);
+
+      setActiveSlug(containingSection?.id ?? lastPassedSection?.id ?? sections[0]?.id ?? "");
+    };
+
+    const handleScroll = () => {
+      if (!animationFrame) animationFrame = window.requestAnimationFrame(updateActiveCategory);
+    };
+
+    const interruptNavigationLock = () => {
+      navigationLockUntil.current = 0;
+      updateActiveCategory();
+    };
+
+    updateActiveCategory();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll);
+    window.addEventListener("wheel", interruptNavigationLock, { passive: true });
+    window.addEventListener("touchmove", interruptNavigationLock, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+      window.removeEventListener("wheel", interruptNavigationLock);
+      window.removeEventListener("touchmove", interruptNavigationLock);
+      if (animationFrame) window.cancelAnimationFrame(animationFrame);
+    };
   }, [categories]);
 
   useEffect(() => {
-    const activeLink = navRef.current?.querySelector<HTMLElement>(`[data-category="${activeSlug}"]`);
-    activeLink?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+    const nav = navRef.current;
+    const activeLink = nav?.querySelector<HTMLElement>(`[data-category="${activeSlug}"]`);
+    if (!nav || !activeLink) return;
+
+    const left = activeLink.offsetLeft - (nav.clientWidth - activeLink.offsetWidth) / 2;
+    nav.scrollTo({ left: Math.max(0, left), behavior: "smooth" });
   }, [activeSlug]);
 
   return (
