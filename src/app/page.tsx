@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { CafeStatus } from "@/components/CafeStatus";
+import { CategoryNav } from "@/components/CategoryNav";
 import {
   DEFAULT_CAFE_NAME,
   getPublishedContent,
@@ -165,13 +167,7 @@ function MenuContent({
 
   return (
     <>
-      <nav className="category-nav" aria-label="Menu categories">
-        {categories.map((category) => (
-          <a href={`#${category.slug}`} key={category.slug}>
-            {category.name}
-          </a>
-        ))}
-      </nav>
+      <CategoryNav categories={categories} />
       <div className="category-list">
         {categories.map((category, categoryIndex) => {
         const categoryItems = items.filter((item) => item.category === category.slug);
@@ -203,7 +199,7 @@ function MenuContent({
                     style={item.image ? { backgroundImage: `url("${item.image}")` } : undefined}
                   >
                     {item.featured && (
-                      <span className="featured-badge">Featured</span>
+                      <span className="featured-badge">Best seller</span>
                     )}
                     {conceptPreview && item.image && (
                       <span className="image-caption">Sample</span>
@@ -250,17 +246,19 @@ export default async function Home() {
   const footerCopyright =
     content?.siteSettings?.footerCopyright?.trim() || `© ${new Date().getFullYear()} ${cafeName}`;
   const logo = content?.siteSettings?.logo;
-  const cmsIntro = cafeInfo?.introduction?.trim();
+  const heroImage = content?.siteSettings?.heroImage;
+  const cmsIntro = (content?.siteSettings?.introduction || cafeInfo?.introduction)?.trim();
   const welcomeCopy =
     cmsIntro && !isPlaceholderIntro(cmsIntro)
       ? cmsIntro
       : conceptPreview
         ? "A first look at the menu experience. Real offerings and cafe details will go here after the owner approves them."
-        : "Our menu and cafe details are managed by the cafe. Check back soon for updates.";
+        : "Espresso, signatures, and pastries in Yati, Liloan.";
   const hoursGroups = cafeInfo?.hours.length ? formatHoursGroups(cafeInfo.hours) : [];
 
   return (
     <>
+      <div id="top" aria-hidden="true" />
       {conceptPreview && (
         <div className="demo-ribbon">
           <span className="ribbon-dot" aria-hidden="true" />
@@ -269,7 +267,7 @@ export default async function Home() {
       )}
       <header className="site-header">
         <div className="header-inner">
-          <div className="wordmark">
+          <a className="wordmark" href="#top" aria-label={`${cafeName} — back to top`}>
             {logo && (
               <Image
                 className="brand-logo"
@@ -281,15 +279,15 @@ export default async function Home() {
               />
             )}
             <span className="wordmark-text">{cafeName}</span>
-          </div>
+          </a>
           <nav className="primary-nav" aria-label="Main navigation">
-            <a href="#menu">Menu</a>
+            <a href="#menu-title">Menu</a>
             <a href="#visit">Visit</a>
           </nav>
         </div>
       </header>
 
-      <main id="top">
+      <main>
         <section className="intro-band" aria-labelledby="intro-title">
           <div className="intro-inner">
             <div className="intro-copy">
@@ -298,24 +296,28 @@ export default async function Home() {
               )}
               <h1 id="intro-title">{heroHeadline}</h1>
               <p className="intro-description">{welcomeCopy}</p>
-              <a className="intro-link" href="#menu">
-                {conceptPreview ? "See the sample menu" : "See the menu"} <span aria-hidden="true">↓</span>
+              <a className="intro-link" href="#menu-title">
+                {conceptPreview ? "Explore the sample menu" : "Explore the menu"} <span aria-hidden="true">↓</span>
               </a>
             </div>
-            {conceptPreview && (
+            {heroImage ? (
+              <div className="intro-photo">
+                <Image src={heroImage.url} alt={heroImage.alt} fill sizes="(max-width: 600px) 280px, 360px" unoptimized />
+                {cafeInfo?.hours.length ? <CafeStatus hours={cafeInfo.hours} compact /> : null}
+              </div>
+            ) : conceptPreview ? (
               <div className="intro-stamp" aria-label="Prototype, not approved for launch">
                 <span>THE</span>
                 <strong>FIRST<br />POUR</strong>
                 <span>PROTOTYPE / 01</span>
               </div>
-            )}
+            ) : null}
             <div className="intro-pattern" aria-hidden="true" />
           </div>
         </section>
 
         <section className="catalog-section" id="menu" aria-labelledby="menu-title">
           <div className="catalog-heading">
-            <p className="eyebrow eyebrow-dark">Menu</p>
             <h2 id="menu-title">{menuHeading}</h2>
           </div>
 
@@ -329,7 +331,6 @@ export default async function Home() {
 
         <section className="visit-section" id="visit" aria-labelledby="visit-title">
           <div className="visit-heading">
-            <p className="eyebrow">Visit</p>
             <h2 id="visit-title">{visitHeading}</h2>
           </div>
           <dl className="visit-details">
@@ -361,7 +362,7 @@ export default async function Home() {
               </dd>
             </div>
             <div>
-              <dt><VisitIcon name="message" />Say hello</dt>
+              <dt><VisitIcon name="message" />Stay connected</dt>
               <dd>
                 {cafeInfo?.phone && (
                   <a className="visit-link social-link" href={`tel:${cafeInfo.phone.replace(/[^\d+]/g, "")}`}>
@@ -402,20 +403,9 @@ export default async function Home() {
 
       <footer className="site-footer">
         <div className="footer-brand">
-          {logo && (
-            <Image
-              className="footer-logo"
-              src={logo.url}
-              alt=""
-              width={40}
-              height={40}
-              unoptimized
-            />
-          )}
           <span>{cafeName}</span>
         </div>
         <p className="footer-copyright">{footerCopyright}</p>
-        <a href="#top">Back to top</a>
       </footer>
     </>
   );

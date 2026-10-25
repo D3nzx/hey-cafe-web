@@ -24,6 +24,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 72px;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -151,6 +152,29 @@ a:focus-visible {
   padding: 42px 0 46px;
 }
 
+.intro-photo {
+  position: relative;
+  z-index: 1;
+  width: 320px;
+  height: 220px;
+  flex: 0 0 auto;
+  overflow: hidden;
+  border: 1px solid var(--ink);
+  border-radius: 8px;
+  transform: rotate(2deg);
+}
+
+.intro-photo img { object-fit: cover; }
+
+  .intro-photo .cafe-status {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    left: 12px;
+    width: fit-content;
+    max-width: calc(100% - 24px);
+    margin: 0;
+  }
 .intro-copy {
   position: relative;
   z-index: 1;
@@ -252,6 +276,10 @@ a:focus-visible {
   scroll-margin-top: 72px;
 }
 
+#menu-title {
+  scroll-margin-top: 72px;
+}
+
 .catalog-heading {
   max-width: 640px;
 }
@@ -275,7 +303,7 @@ a:focus-visible {
   gap: 8px;
   overflow-x: auto;
   margin: 28px 0 36px;
-  padding: 4px 0 10px;
+  padding: 5px 2px 11px;
   scrollbar-width: none;
   -ms-overflow-style: none;
   touch-action: pan-x;
@@ -299,9 +327,16 @@ a:focus-visible {
   transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease;
 }
 
-.category-nav a:hover {
+.category-nav a:hover:not(.category-active) {
+  border-color: var(--mint);
+  background: #edf5ef;
+  color: var(--ink);
+}
+
+.category-nav a.category-active {
   border-color: var(--ink);
-  background: var(--mint);
+  background: var(--ink);
+  color: white;
 }
 
 .menu-category {
@@ -563,6 +598,52 @@ a:focus-visible {
   line-height: 1.55;
 }
 
+.cafe-status {
+  display: inline-flex;
+  min-height: 28px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin-bottom: 10px;
+  padding: 5px 10px;
+  border: 1px solid rgb(32 37 34 / 24%);
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.cafe-status strong { line-height: 1.2; }
+.cafe-status small { margin-top: 1px; font-size: 11px; }
+.cafe-status-compact {
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  border-radius: 6px;
+  background: rgb(32 37 34 / 92%);
+  color: white;
+  box-shadow: 0 3px 12px rgb(32 37 34 / 25%);
+}
+.cafe-status-compact small { margin-top: 0; color: #d8ded9; }
+
+.cafe-status-dot {
+  width: 10px;
+  height: 10px;
+  flex: 0 0 auto;
+  border: 1px solid rgb(255 255 255 / 75%);
+  border-radius: 50%;
+  background: #8d9490;
+  box-shadow: 0 0 0 3px rgb(255 255 255 / 18%);
+}
+
+.cafe-status-open .cafe-status-dot {
+  background: #65e495;
+  box-shadow: 0 0 0 3px rgb(101 228 149 / 25%), 0 0 10px rgb(101 228 149 / 70%);
+}
+
+.cafe-status-closed .cafe-status-dot { background: var(--tomato); }
+
+.cafe-status-open:not(.cafe-status-compact) { background: var(--yellow); }
+.cafe-status-closed:not(.cafe-status-compact) { background: rgb(255 255 255 / 55%); }
+
 .hours-list {
   display: grid;
   gap: 8px;
@@ -673,6 +754,7 @@ a:focus-visible {
 }
 
 @media (max-width: 600px) {
+  html { scroll-padding-top: 64px; }
   .demo-ribbon { min-height: 36px; font-size: 11px; }
 
   .header-inner,
@@ -691,17 +773,31 @@ a:focus-visible {
   }
 
   .intro-inner {
-    min-height: 250px;
-    padding: 32px 0 36px;
+    min-height: 0;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 28px 0 24px;
   }
 
-  .intro-copy { max-width: 92%; }
+  .intro-copy { max-width: 100%; }
   .eyebrow { font-size: 11px; }
-  .intro-copy h1 { font-size: 40px; }
+  .intro-copy h1 { font-size: 44px; line-height: 0.92; }
 
   .intro-description {
-    max-width: 340px;
-    font-size: 15px;
+    max-width: 100%;
+    margin-top: 14px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .intro-link { margin-top: 16px; }
+
+  .intro-photo {
+    width: 100%;
+    height: clamp(180px, 58vw, 230px);
+    margin-top: 22px;
+    border-radius: 6px;
+    transform: none;
   }
 
   .intro-stamp {
@@ -715,6 +811,7 @@ a:focus-visible {
 
   .intro-stamp span { font-size: 6px; }
   .intro-stamp strong { font-size: 15px; }
+  .intro-photo { width: 220px; height: 220px; }
 
   .intro-pattern {
     top: 6px;
@@ -723,8 +820,16 @@ a:focus-visible {
     height: 330px;
   }
 
+  .catalog-section { scroll-margin-top: 64px; }
+  #menu-title { scroll-margin-top: 64px; }
+  #visit-title { scroll-margin-top: 64px; }
   .catalog-section { padding: 40px 0 52px; }
-  .catalog-heading h2 { font-size: 28px; }
+  .catalog-heading h2 {
+    max-width: 18ch;
+    font-size: 28px;
+    line-height: 1.12;
+    text-wrap: balance;
+  }
 
   .category-nav {
     position: sticky;
@@ -737,8 +842,8 @@ a:focus-visible {
   }
 
   .category-nav a {
-    min-height: 36px;
-    padding: 0 14px;
+    min-height: 44px;
+    padding: 0 16px;
     font-size: 13px;
   }
 
@@ -773,6 +878,7 @@ a:focus-visible {
   .visit-section {
     gap: 20px;
     padding: 40px 16px;
+    scroll-margin-top: 64px;
   }
 
   .visit-heading h2 { font-size: 28px; }

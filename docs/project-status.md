@@ -1,7 +1,7 @@
 # Hey! Cafe Project Status
 
-**Date and time:** 2026-10-24 11:52 PM TST
-**Project stage:** Client walkthrough and pre-launch approval are in progress; recent local UI and CMS refinements are complete.
+**Date and time:** 2026-10-25 07:31 PM TST
+**Project stage:** Mobile UI refinement and interaction testing are in progress; final content approval, hosted CMS deployment, and production launch checks remain.
 
 ## Done
 
@@ -33,71 +33,63 @@
 - Committed and pushed the project status, secure publish workflow, and production Studio project configuration to the personal GitHub repository on `main`.
 - Checked dependency audit status: `npm audit --omit=dev` reports zero production dependency vulnerabilities. The full audit reports 19 development-tree vulnerabilities (11 high, 8 moderate); npm's proposed fix requires a breaking Sanity version change and has not been applied.
 - Reviewed all 19 development-tree vulnerabilities. Upgraded `sanity` devDependency from `6.19.0` to `6.20.0` (non-breaking). Added `npm overrides` for `smol-toml` (^1.9.1) and `uuid` (^11.1.1) to resolve 3 of 19 vulnerabilities where patched versions exist. Updated `studio/package.json` to match `^6.20.0`. Remaining 16 vulnerabilities are in `braces`, `js-yaml`, and `sprintf-js` — all nested inside `@sanity/cli` internals or `eslint-config-next`'s glob chain; no patched upstream versions exist yet. All 16 are dev-only tools with zero production exposure. `npm run build` and all tests pass after the changes. Changes committed and pushed to `main` (commit `95759d7`).
-- Identified that commits `95759d7` (vulnerability review) and `b594bac` (project status update) failed Cloudflare deployment due to `package-lock.json` being out of sync. Root cause: `sanity@6.20.0` introduced a nested dependency `@sanity/workflow-blueprint` requiring TypeScript `^6.0.3 || ^7.0.0`, but `package.json` had `typescript: ^5`, causing TypeScript 5.9.3 to be installed which was invalid for the new peer dependency requirement.
-- Fixed lockfile sync issue by upgrading TypeScript from `^5` to `^7` in `package.json`, running `npm install` to install TypeScript 7.0.2 and regenerate `package-lock.json` with all optional platform-specific packages, verifying `npm run build` passes locally, and committing the changes to `main` (commit `ffac7d5`). Cloudflare deployment succeeded and production site is now live with all vulnerability review changes and TypeScript 7.0.2.
-- Set up cafe editor access: created a dedicated Gmail (`heycafe.liloan.official@gmail.com`) for the cafe, invited and approved it as an Editor in the Hey! Cafe Sanity project (`755fh2p2`), and renamed the Sanity organization to `Hey! Cafe Org`.
-- Deployed Sanity Studio to hosted service at `https://hey-cafe.sanity.studio/`. Added the deployment `appId` (`dra0pf2zhzdug0bsnf0tvzhk`) to `studio/sanity.cli.ts` and committed to `main` (commit `0e22349`). Verified the Studio URL is publicly accessible.
-- Investigated `https://hey-cafe.sanity.studio/` returning a 404 "Studio not found" error. Root cause: the Studio deployment had gone missing from Sanity's hosted service. Removed the stale `appId` from `studio/sanity.cli.ts`, set `studioHost: "hey-cafe"`, ran `npx sanity deploy`, and confirmed the Studio redeployed successfully with the same hostname and appId (`dra0pf2zhzdug0bsnf0tvzhk`). Restored the `deployment.appId` field in `studio/sanity.cli.ts`. Also removed a duplicate content block that had accumulated in `docs/project-status.md`.
-- Verified cafe editor workflow end-to-end: signed in to `https://hey-cafe.sanity.studio/` using the cafe Gmail, added a test menu category and item with a photo, published it, confirmed it appeared on the live site, then deleted the test content and confirmed removal.
-- Wrote handoff documentation in `docs/handoff-guide.md` covering: live site URL, Studio URL, sign-in instructions using the cafe Gmail, how to add categories and menu items with photos, how to edit and remove items, photo tips, how the publish-to-live flow works, the optional menu PDF field, quick reference table, and support contact.
-- Created demo content guide in `docs/demo-content.md` with 4 categories, 16 sample menu items with prices and descriptions, photo search terms per item, and step-by-step Studio entry instructions for client preview testing.
-- Populated the production Sanity dataset with demo content: 4 categories (Espresso, Signature Drinks, Non-Coffee, Pastries), 16 menu items with photos sourced from Google Images, confirmed all items appear correctly on the live site at `hey-cafe-web.pages.dev`.
-- Entered real cafe information into Sanity: address (Sta. Catalina Subdivision, Yati, Liloan, Cebu), confirmed opening hours from the cafe's Facebook page (Mon/Wed/Thu/Sun: 3:00 PM - 10:30 PM; Fri/Sat: 3:00 PM - 12:00 AM; Tue: Closed), phone number, and social links.
-- Fixed opening hours display: added `formatTime()` utility to `src/lib/cafe-content.ts` that converts 24-hour time strings to 12-hour AM/PM format for customer-facing display. Applied it to both open and close fields in `src/app/page.tsx`. Build verified and deployed; hours now display as e.g. `3:00 PM - 10:30 PM` instead of `15:00 - 22:30`.
-- Updated the browser tab title from "Hey! Cafe | Concept Menu" to "Hey! Cafe — Menu" in `src/app/layout.tsx` metadata.
-- Added the Hey! Cafe logo (`icon.png`) to `src/app/` using Next.js App Router's file-based favicon convention. The circular red-and-white "HEY! Cafe" badge now displays as the browser tab icon, replacing the default Next.js favicon. Source logo archived in `docs/icons/hey-cafe-logo.png`.
-- Performed full UI/UX polish pass (triggered by Cursor): rewrote `globals.css` with a new design system (`--paper`, `--ink`, `--tomato`, `--mint`, `--blue`, `--yellow` tokens), replaced the old header markup with a clean sticky header, removed placeholder numbering from category nav and headings, tightened all copy (eyebrows, CTAs, visit section), added `isPlaceholderIntro()` guard so the intro description never shows a raw placeholder, refactored hours rendering to use the new `formatHoursGroups()` utility, and applied full mobile-responsive breakpoints (960px, 720px, 600px) including sticky category nav on mobile. Committed and pushed to `main`.
-- Added `formatHoursGroups()` to `src/lib/cafe-content.ts`: groups days sharing the same hours into a single row (e.g. "Mon, Wed & Thu · 3:00 PM - 10:30 PM"), sorts open days before closed days, and replaces the previous raw per-day loop in `page.tsx`.
-- Updated `layout.tsx` meta description from the prototype disclaimer to the real customer-facing copy: `"Espresso, signatures, and pastries at Hey! Cafe in Yati, Liloan, Cebu."`
-- Committed `public/hey-cafe-logo.png` which was previously untracked, fixing the black circle placeholder shown in the header and footer on the live site.
-- Fixed hardcoded fallback intro copy in `src/app/page.tsx`: replaced the location-specific string ("Neighborhood cafe in Yati, Liloan...") with a generic location-agnostic fallback so stale address or hours info can never appear if the CMS field is accidentally wiped.
-- Removed logo `<img>` from the header wordmark and footer brand in `src/app/page.tsx`; both now display the cafe name text only. Removed associated `.brand-logo`, `.footer-logo`, and related responsive CSS rules from `src/app/globals.css`. Removed unused `logoSrc` and `logoAlt` variable declarations.
-- Updated the root `npm run studio` command to launch Sanity's installed CLI through its package entry point while running from the Studio directory, resolving Windows and nested dependency executable issues.
-- Diagnosed and repaired local Sanity Studio startup failures caused by stale Vite dependency optimization output, cleared only generated Studio cache files, and verified Studio regenerated its dependency modules and returned HTTP 200.
-- Verified the corrected local Sanity Studio startup after a fresh terminal session and confirmed the current Site Settings document remains available in the Studio structure editor.
-- Replaced the placeholder **Short introduction** in Sanity Studio with real customer-facing copy and published it so the live site rebuilds and displays the approved introduction.
-- Connected the published Sanity cafe name and logo to the website header, footer, page metadata, and browser icons; the footer location now uses the Sanity cafe address. Kept the existing hours formatting and grouping helpers, which format hours fetched from Sanity.
-- Added editable **Hero headline**, **Menu section heading**, and **Visit section heading** fields to Sanity Site Settings and connected them to the homepage. Removed the production welcome eyebrow; the existing sample eyebrow remains limited to concept-preview mode. Updated the handoff guide with instructions for editing the headings.
-- Connected the Sanity menu item's **Featured** value to the frontend and display a badge on featured item cards without changing menu ordering. Updated the handoff guide to explain the badge.
-- Added an optional TikTok page URL to Sanity Cafe Information and connected it to the public **Say hello** links. Documented social-link management in the handoff guide.
-- Added compact location, clock, and message icons to the visit-detail headings and a phone icon beside the tap-to-call number.
-- Simplified the footer to show the cafe branding, optional Sanity-managed copyright text (or an automatically generated current-year and cafe-name line), and Back to top; removed the repeated address.
-- Hid the category navigation scrollbar on mobile while preserving horizontal swipe, trackpad, and keyboard scrolling. Hid the page's vertical scrollbar while preserving normal vertical page scrolling.
-- Made the header and footer cafe branding non-clickable, leaving "Back to top" as the explicit return-to-top control.
-- Connected the published Sanity cafe name and logo to the header, footer, page title, description, and browser icons. The page uses the published cafe name with a fallback; the page metadata also uses the published intro when available.
-- Added Sanity Site Settings fields for the hero headline, menu heading, visit heading, and optional footer copyright text. Connected those fields to the website with sensible fallback copy.
-- Connected the published Featured toggle to a compact badge over the menu image and retained each item's existing category and display order.
-- Added editable TikTok URL to Sanity Cafe Information and displayed the link conditionally with Facebook and Instagram under "Say hello."
-- Added compact inline social icons beside Facebook, Instagram, and TikTok labels. Added location, hours, contact, phone, and directions icons in the Visit section. Kept text labels and verified the compact alignment in the browser.
-- Updated the map link label to "Get directions," kept its external link behavior, and placed the icon-and-text action on a separate line below the address.
-- Added two fictional sample menu items per category and photo search suggestions to `docs/demo-content.md`; these remain examples only and were not added to the production dataset.
-- Updated `docs/handoff-guide.md` to explain the new Site Settings fields, social URLs, featured badge, and current-year/custom footer copyright line.
-- Verified the latest frontend and schema changes with successful `npm run build`, `npm test`, `git diff --check`, and browser checks for the rendered icons, footer, and scrolling behavior.
+- Identified that commits `95759d7` and `b594bac` failed Cloudflare deployment due to a package-lock mismatch. Fixed the lockfile by upgrading TypeScript from `^5` to `^7`, ran `npm install`, verified the build, and deployed the changes successfully.
+- Set up cafe editor access with a dedicated Gmail account, approved Editor access in Sanity, and renamed the Sanity organization to `Hey! Cafe Org`.
+- Deployed Sanity Studio to `https://hey-cafe.sanity.studio/` and confirmed the Studio URL is publicly accessible.
+- Investigated and repaired the Studio deployment after a hosted-service 404, then restored its `deployment.appId`.
+- Verified the cafe editor workflow end-to-end in the hosted Studio, including publishing and removing temporary content.
+- Wrote the handoff guide in `docs/handoff-guide.md`.
+- Created the demo content guide in `docs/demo-content.md`.
+- Populated production with four demo categories and 16 menu items with photos, then verified the items appear on the live site.
+- Added real cafe address, confirmed opening hours, phone number, and social links to Sanity.
+- Added `formatTime()` and `formatHoursGroups()` utilities for customer-friendly hours.
+- Added the cafe logo favicon and connected published cafe branding to the public site metadata.
+- Performed the full UI/UX polish pass, including responsive layouts, sticky category navigation, accessible focus styles, reduced-motion support, and stronger mobile navigation.
+- Added editable hero headline, short introduction, menu heading, visit heading, hero image, social links, featured-item label, and footer copyright settings in Sanity.
+- Moved the Short introduction from Cafe Information to Site Settings and preserved compatibility with the previous CMS value.
+- Renamed the featured-item Studio field to **Best seller** while retaining its existing CMS field for compatibility.
+- Added a compact hero status badge with a green open indicator, closed indicator, and Manila-time updates.
+- Simplified the hero copy to `Espresso, signatures, and pastries in Yati, Liloan.` and the hero CTA to `Explore the menu`.
+- Removed redundant **Menu** and **Visit** eyebrow labels.
+- Updated Visit copy to **Drop by and say hello**, **Stay connected**, and balanced mobile heading treatment.
+- Removed the footer logo and footer Back to top button; the cafe name and copyright remain in the footer.
+- Made the header cafe logo and name a reliable link back to the actual top of the page.
+- Removed the footer logo completely while preserving the cafe name.
+- Improved menu category chips with a distinct active dark state, lighter hover state, mobile 44px touch targets, horizontal scrolling, and active-chip tracking.
+- Connected category chips to URL fragments and active scroll position.
+- Added a navigation lock during category smooth scrolling so the active color does not flicker between sections.
+- Normalized the legacy Sanity Espresso slug `espreso` to `espresso`.
+- Unified the **Explore the menu** and header **Menu** links to the same menu heading target.
+- Fixed the header **Menu** and **Visit** section offsets for desktop and sticky-header mobile navigation.
+- Verified production builds succeed after the recent CMS and navigation refinements.
 
 ## Deferred Until Production Readiness
 
 - Sanity Studio's Releases screen has a runtime error. Standard document publishing works; investigate the Releases issue only if scheduled publishing is required.
 - Remaining 16 dev-tree vulnerabilities (`braces`, `js-yaml`, `sprintf-js`) have no patched upstream versions available. Re-check after future `sanity` or `eslint-config-next` releases before launch.
-- The hosted Sanity Studio has not yet been redeployed with the latest local schema additions. Deploy the Studio schema before expecting the Hero headline, Menu section heading, Visit section heading, Footer copyright text, and TikTok page fields to appear in the hosted editor.
-- ESLint currently fails to run because the installed `typescript-eslint` integration does not support TypeScript 7.0. Re-check after upstream compatibility is released; production build and tests pass.
+- The hosted Sanity Studio has not yet been redeployed with the latest local hero image and content-organization schema additions. Deploy the Studio schema before expecting newly added Site Settings fields to appear in the hosted editor.
+- ESLint currently fails to run because the installed `typescript-eslint` integration does not support TypeScript 7.0. Production build and tests pass.
 
 ## TO DO LIST
 
 - Complete client approval and production launch checks: confirm the live URL with the cafe owner, agree on account ownership and recovery access for Sanity, Cloudflare, and GitHub, confirm billing contacts, and confirm the approved footer copyright holder/text.
-- Deploy the updated Sanity Studio schema to `https://hey-cafe.sanity.studio/` and verify the new editable fields appear in the hosted Studio.
-- Walk the cafe owner through the live demo at `hey-cafe-web.pages.dev` and the Studio at `hey-cafe.sanity.studio` using the handoff guide in `docs/handoff-guide.md`.
-- Correct and publish the cafe name in Sanity Site Settings; the current published value appears as `Hey Cafe!h`.
-- Obtain the cafe owner's approval and real menu, prices, categories, product photos, descriptions, location, hours, and contact/social details before replacing demo content.
-- Delete demo content from the production Sanity dataset and replace it with real cafe-approved menu items, categories, photos, and descriptions once the owner supplies and approves them.
-- Complete final mobile, desktop, accessibility, publishing-flow, and failed-build recovery checks against the real production content.
+- Deploy the updated Sanity Studio schema to `https://hey-cafe.sanity.studio/` and verify all new fields appear in the hosted Studio.
+- Reconcile the published Sanity cafe name; the current published value may not match the approved branding.
+- Replace every remaining demo menu item, description, price, and product photo with cafe-approved production content.
+- Confirm and publish final hero heading, short introduction, menu heading, visit heading, hero image, cafe name, logo, and copyright text in Site Settings.
+- Verify the final Espresso Sanity slug is stored as `espresso`; retain the frontend legacy-slug safeguard until Studio data is corrected.
+- Walk the cafe owner through the live demo and Studio using the handoff guide.
+- Complete final mobile, desktop, keyboard, contrast, category-navigation, publishing-flow, and failed-build recovery checks with real production content.
+- Verify the complete status badge behavior for open, closed, and closed-today states across real operating-hour boundaries.
+- Re-check dependency vulnerabilities after compatible upstream updates are released.
 
 ## Vulnerability Status (Dev-Only)
 
 `npm audit --omit=dev` = **0 production vulnerabilities**
 
 Remaining 16 dev-tree vulnerabilities after review:
-- `braces <=3.0.3` - no patched version published by upstream maintainer yet; affects `@sanity/cli` and `eslint-config-next` glob chains
-- `js-yaml <=3.15.2` - nested inside `@vercel/frameworks` inside `@sanity/cli`; fix requires Sanity to update their CLI
-- `sprintf-js *` - nested inside `argparse` inside the `js-yaml` chain above
+- `braces <=3.0.3` - no patched version published by upstream maintainer yet; affects `@sanity/cli` and `eslint-config-next` glob chains.
+- `js-yaml <=3.15.2` - nested inside `@vercel/frameworks` inside `@sanity/cli`; fix requires Sanity to update their CLI.
+- `sprintf-js *` - nested inside `argparse` inside the `js-yaml` chain above.
 
 These are CLI and linting tools only. They do not run in the browser or in the production Cloudflare deployment. Re-check after future `sanity` or `eslint-config-next` releases.

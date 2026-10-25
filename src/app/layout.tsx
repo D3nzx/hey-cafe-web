@@ -20,14 +20,18 @@ const geistMono = Geist_Mono({
 export async function generateMetadata(): Promise<Metadata> {
   const content = await getPublishedContent();
   const cafeName = content?.siteSettings?.cafeName?.trim() || DEFAULT_CAFE_NAME;
-  const introduction = content?.cafeInfo?.introduction?.trim();
+  const introduction = (content?.siteSettings?.introduction || content?.cafeInfo?.introduction)?.trim();
   const logoUrl = content?.siteSettings?.logo?.url;
 
+  const address = content?.cafeInfo?.address;
+  const location = address || "Yati, Liloan, Cebu";
+
   return {
-    title: `${cafeName} — Menu`,
+    title: `${cafeName} | Menu, ${location}`,
     description: isPlaceholderIntro(introduction)
-      ? `Menu, hours, and cafe details for ${cafeName}.`
+      ? `${cafeName} menu, hours, and cafe details in ${location}.`
       : introduction,
+    alternates: { canonical: "https://hey-cafe-web.pages.dev/" },
     icons: {
       icon: logoUrl || "/hey-cafe-logo.png",
       apple: logoUrl || "/hey-cafe-logo.png",

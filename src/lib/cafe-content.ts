@@ -42,11 +42,13 @@ export type CafeInformation = {
 
 export type SiteSettings = {
   heroHeadline?: string;
+  introduction?: string;
   menuHeading?: string;
   visitHeading?: string;
   cafeName?: string;
   footerCopyright?: string;
   logo?: { url: string; alt: string } | null;
+  heroImage?: { url: string; alt: string } | null;
 };
 
 export type PublishedContent = {
@@ -99,12 +101,15 @@ const CAFE_CONTENT_QUERY = `{
   },
   "siteSettings": *[_type == "siteSettings"][0] {
     heroHeadline,
+    introduction,
     menuHeading,
     visitHeading,
     cafeName,
     footerCopyright,
     logo,
-    "logoAlt": coalesce(logo.alt, cafeName)
+    heroImage,
+    "logoAlt": coalesce(logo.alt, cafeName),
+    "heroImageAlt": coalesce(heroImage.alt, "")
   }
 }`;
 
@@ -112,9 +117,11 @@ type QueryResult = {
   categories?: MenuCategory[] | null;
   items?: Array<Omit<MenuItem, "image"> & { image?: SanityImageSource | null }> | null;
   cafeInfo?: (Omit<CafeInformation, "hours"> & { hours?: CafeHours[] | null }) | null;
-  siteSettings?: (Omit<SiteSettings, "logo"> & {
+  siteSettings?: (Omit<SiteSettings, "logo" | "heroImage"> & {
     logo?: SanityImageSource | null;
+    heroImage?: SanityImageSource | null;
     logoAlt?: string;
+    heroImageAlt?: string;
   }) | null;
 };
 
@@ -172,6 +179,40 @@ function hoursValue(entry: CafeHours): string {
 }
 
 /** Groups cafe hours by shared times, e.g. "Mon, Wed & Thu" + "3:00 PM – 10:30 PM". */
+export function getCafeStatus(hours: CafeHours[], now = new Date(), timeZone = "Asia/Manila"):
+  { label: string; detail?: string; state: "open" | "closed" | "pending" } {
+  if (!hours.length) return { label: "Hours pending", state: "pending" };
+
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone,
+    weekday: "long",
+    hour: "numeric",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(now);
+  const weekday = parts.find((part) => part.type === "weekday")?.value.toLowerCase();
+  const hour = Number(parts.find((part) => part.type === "hour")?.value || 0);
+  const minute = Number(parts.find((part) => part.type === "minute")?.value || 0);
+  const today = hours.find((entry) => entry.day.toLowerCase() === weekday);
+  if (!today || today.closed) return { label: "Closed today", state: "closed" };
+  if (!today.open || !today.close) return { label: "Closed", state: "closed" };
+
+  const toMinutes = (time: string) => {
+    const [hoursPart, minutesPart] = time.split(":").map(Number);
+    return hoursPart * 60 + minutesPart;
+  };
+  const opensAt = toMinutes(today.open);
+  const closesAt = toMinutes(today.close);
+  const currentMinutes = hour * 60 + minute;
+  const isOpen = closesAt > opensAt
+    ? currentMinutes >= opensAt && currentMinutes < closesAt
+    : currentMinutes >= opensAt || currentMinutes < closesAt;
+
+  return isOpen
+    ? { label: "Open now", state: "open" }
+    : { label: "Closed", detail: formatTime(today.open), state: "closed" };
+}
+
 export function formatHoursGroups(hours: CafeHours[]): { days: string; time: string }[] {
   const groups = new Map<string, { days: string[]; firstDay: number; closed: boolean }>();
 
@@ -207,11 +248,16 @@ export const getPublishedContent = cache(async (): Promise<PublishedContent | nu
 
   const result = await client.fetch<QueryResult>(CAFE_CONTENT_QUERY);
   const logoUrl = imageUrl(result.siteSettings?.logo, 500);
+  const heroImageUrl = imageUrl(result.siteSettings?.heroImage, 1400);
 
   return {
-    categories: result.categories ?? [],
+    categories: (result.categories ?? []).map((category) => ({
+      ...category,
+      slug: category.slug === "espreso" ? "espresso" : category.slug,
+    })),
     items: (result.items ?? []).map((item) => ({
       ...item,
+      category: item.category === "espreso" ? "espresso" : item.category,
       image: imageUrl(item.image),
     })),
     cafeInfo: result.cafeInfo
@@ -220,6 +266,7 @@ export const getPublishedContent = cache(async (): Promise<PublishedContent | nu
     siteSettings: result.siteSettings
       ? {
           heroHeadline: result.siteSettings.heroHeadline,
+          introduction: result.siteSettings.introduction,
           menuHeading: result.siteSettings.menuHeading,
           visitHeading: result.siteSettings.visitHeading,
           cafeName: result.siteSettings.cafeName,
@@ -228,6 +275,12 @@ export const getPublishedContent = cache(async (): Promise<PublishedContent | nu
             ? {
                 url: logoUrl,
                 alt: result.siteSettings.logoAlt || "Cafe logo",
+              }
+            : null,
+          heroImage: heroImageUrl
+            ? {
+                url: heroImageUrl,
+                alt: result.siteSettings.heroImageAlt || "Cafe interior or signature drink",
               }
             : null,
         }

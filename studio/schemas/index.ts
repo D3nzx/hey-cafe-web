@@ -94,7 +94,7 @@ const menuItem = defineType({
     }),
     defineField({
       name: "featured",
-      title: "Featured item",
+      title: "Best seller",
       type: "boolean",
       initialValue: false,
     }),
@@ -219,13 +219,6 @@ const cafeInfo = defineType({
       type: "url",
       validation: (rule) => rule.uri({ scheme: ["http", "https"] }),
     }),
-    defineField({
-      name: "introduction",
-      title: "Short introduction",
-      type: "text",
-      rows: 3,
-      validation: (rule) => rule.max(300),
-    }),
   ],
   preview: { prepare: () => ({ title: "Cafe information" }) },
 });
@@ -260,6 +253,29 @@ const siteSettings = defineType({
       title: "Cafe name",
       type: "string",
       validation: (rule) => rule.max(80),
+    }),
+    defineField({
+      name: "introduction",
+      title: "Short introduction",
+      type: "text",
+      rows: 3,
+      description: "A short description shown below the hero headline.",
+      validation: (rule) => rule.max(300),
+    }),
+    defineField({
+      name: "heroImage",
+      title: "Hero image",
+      type: "image",
+      description: "Optional cafe or drink photo shown beside the homepage introduction.",
+      options: { hotspot: true },
+      fields: [
+        defineField({
+          name: "alt",
+          title: "Image description",
+          type: "string",
+          validation: (rule) => rule.required().max(160),
+        }),
+      ],
     }),
     defineField({
       name: "footerCopyright",
