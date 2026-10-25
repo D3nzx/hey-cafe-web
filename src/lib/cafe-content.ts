@@ -246,44 +246,55 @@ export function formatHoursGroups(hours: CafeHours[]): { days: string; time: str
 export const getPublishedContent = cache(async (): Promise<PublishedContent | null> => {
   if (!client) return null;
 
-  const result = await client.fetch<QueryResult>(CAFE_CONTENT_QUERY);
-  const logoUrl = imageUrl(result.siteSettings?.logo, 500);
-  const heroImageUrl = imageUrl(result.siteSettings?.heroImage, 1400);
+  try {
+    const result = await client.fetch<QueryResult>(CAFE_CONTENT_QUERY);
+    if (!result || typeof result !== "object" || Array.isArray(result)) {
+      console.error("[Sanity Error] Unexpected published content result.");
+      return null;
+    }
 
-  return {
-    categories: (result.categories ?? []).map((category) => ({
-      ...category,
-      slug: category.slug === "espreso" ? "espresso" : category.slug,
-    })),
-    items: (result.items ?? []).map((item) => ({
-      ...item,
-      category: item.category === "espreso" ? "espresso" : item.category,
-      image: imageUrl(item.image),
-    })),
-    cafeInfo: result.cafeInfo
-      ? { ...result.cafeInfo, hours: result.cafeInfo.hours ?? [] }
-      : null,
-    siteSettings: result.siteSettings
-      ? {
-          heroHeadline: result.siteSettings.heroHeadline,
-          introduction: result.siteSettings.introduction,
-          menuHeading: result.siteSettings.menuHeading,
-          visitHeading: result.siteSettings.visitHeading,
-          cafeName: result.siteSettings.cafeName,
-          footerCopyright: result.siteSettings.footerCopyright,
-          logo: logoUrl
-            ? {
-                url: logoUrl,
-                alt: result.siteSettings.logoAlt || "Cafe logo",
-              }
-            : null,
-          heroImage: heroImageUrl
-            ? {
-                url: heroImageUrl,
-                alt: result.siteSettings.heroImageAlt || "Cafe interior or signature drink",
-              }
-            : null,
-        }
-      : null,
-  };
+    const logoUrl = imageUrl(result.siteSettings?.logo, 500);
+    const heroImageUrl = imageUrl(result.siteSettings?.heroImage, 1400);
+
+    return {
+      categories: (result.categories ?? []).map((category) => ({
+        ...category,
+        slug: category.slug === "espreso" ? "espresso" : category.slug,
+      })),
+      items: (result.items ?? []).map((item) => ({
+        ...item,
+        category: item.category === "espreso" ? "espresso" : item.category,
+        image: imageUrl(item.image),
+      })),
+      cafeInfo: result.cafeInfo
+        ? { ...result.cafeInfo, hours: result.cafeInfo.hours ?? [] }
+        : null,
+      siteSettings: result.siteSettings
+        ? {
+            heroHeadline: result.siteSettings.heroHeadline,
+            introduction: result.siteSettings.introduction,
+            menuHeading: result.siteSettings.menuHeading,
+            visitHeading: result.siteSettings.visitHeading,
+            cafeName: result.siteSettings.cafeName,
+            footerCopyright: result.siteSettings.footerCopyright,
+            logo: logoUrl
+              ? {
+                  url: logoUrl,
+                  alt: result.siteSettings.logoAlt || "Cafe logo",
+                }
+              : null,
+            heroImage: heroImageUrl
+              ? {
+                  url: heroImageUrl,
+                  alt: result.siteSettings.heroImageAlt || "Cafe interior or signature drink",
+                }
+              : null,
+          }
+        : null,
+    };
+  } catch (error) {
+    console.error("[Sanity Error] Failed to fetch published content:", error);
+    // TODO: Send this error to Sentry if error monitoring is added.
+    return null;
+  }
 });

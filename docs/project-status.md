@@ -1,7 +1,7 @@
 # Hey! Cafe Project Status
 
-**Date and time:** 2026-10-25 07:31 PM TST
-**Project stage:** Mobile UI refinement and interaction testing are in progress; final content approval, hosted CMS deployment, and production launch checks remain.
+**Date and time:** 2026-10-26 01:55 AM TST
+**Project stage:** Core code-quality improvements and static-export image compatibility are complete; final Studio schema deployment, approved content, and production launch checks remain.
 
 ## Done
 
@@ -58,10 +58,26 @@
 - Improved menu category chips with a distinct active dark state, lighter hover state, mobile 44px touch targets, horizontal scrolling, and active-chip tracking.
 - Connected category chips to URL fragments and active scroll position.
 - Added a navigation lock during category smooth scrolling so the active color does not flicker between sections.
+- Added and later refined navigation locking so smooth category scrolling does not flicker or retain an outdated highlight.
+- Added horizontal-only active-chip centering so changing the highlighted chip does not move the document vertically.
+- Added scroll-position tracking based on the section containing the category tracking line, providing consistent behavior during fast and slow scrolling.
+- Configured mobile and touch scrolling to interrupt the temporary navigation lock immediately.
+- Added Next.js 16 hero-image preloading in place of the deprecated `priority` behavior.
+- Fixed Markdown formatting, URL rendering, tables, lists, headings, and excess blank lines in the project documentation.
+- Verified production builds succeed after the category navigation, hero preload, and documentation refinements.
 - Normalized the legacy Sanity Espresso slug `espreso` to `espresso`.
 - Unified the **Explore the menu** and header **Menu** links to the same menu heading target.
 - Fixed the header **Menu** and **Visit** section offsets for desktop and sticky-header mobile navigation.
 - Verified production builds succeed after the recent CMS and navigation refinements.
+- Added error handling and object-result validation to `getPublishedContent()`, with `[Sanity Error]` logging, a `null` fallback, and a note for future Sentry integration; preserved its signature and return type.
+- Added Vitest and `@vitest/ui`, updated the test scripts, and added tests for cafe content utilities and Sanity webhook verification. All 15 tests pass.
+- Moved the Sanity webhook tests into `src/lib/__tests__/sanity-webhook.test.ts` and converted them to Vitest.
+- Added a descriptive `${cafeName} logo` alt text to the header logo image.
+- Tried native `<picture>` rendering for menu photos, then restored the original background-image rendering at the user's request; verified item photos display on the local site.
+- Removed the custom Sanity image loader and configured Next.js images as unoptimized for the static export, preventing the default-loader runtime error. Verified the local page renders and `npm run build` succeeds.
+- Defined `RootLayout` props using React's `PropsWithChildren`; `npx tsc --noEmit` reports no TypeScript errors.
+- Removed `styled-components` from the root project's direct devDependencies while retaining it as Sanity's required peer dependency and in `studio/package.json`.
+- Verified the production build and all 15 Vitest tests pass after the recent changes.
 
 ## Deferred Until Production Readiness
 

@@ -7,7 +7,8 @@
     "build": "node -e \"require('node:fs').rmSync('.next/cache/fetch-cache',{recursive:true,force:true})\" && next build",
     "studio": "cd studio && node ../node_modules/sanity/bin/sanity dev --port 3333",
     "lint": "eslint",
-    "test": "node --experimental-strip-types --test src/lib/sanity-webhook.test.ts"
+    "test": "vitest",
+    "test:ui": "vitest --ui"
   },
   "dependencies": {
     "@sanity/client": "^8.9.0",
@@ -21,12 +22,13 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitest/ui": "^3.2.7",
     "eslint": "^9",
     "eslint-config-next": "16.4.2",
     "sanity": "^6.20.0",
-    "styled-components": "^6.1.15",
     "tailwindcss": "^4",
-    "typescript": "^7"
+    "typescript": "^7",
+    "vitest": "^3.2.7"
   },
   "overrides": {
     "smol-toml": "^1.9.1",

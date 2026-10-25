@@ -192,10 +192,10 @@ function MenuContent({
                   key={item.name}
                   style={{ animationDelay: `${(categoryIndex + itemIndex) * 80}ms` }}
                 >
-                <div
-                  className={`item-image${item.image ? "" : " item-image-placeholder"}`}
-                  role="img"
-                  aria-label={item.featured ? `${item.imageAlt}; featured item` : item.imageAlt}
+                  <div
+                    className={`item-image${item.image ? "" : " item-image-placeholder"}`}
+                    role="img"
+                    aria-label={item.featured ? `${item.imageAlt}; featured item` : item.imageAlt}
                     style={item.image ? { backgroundImage: `url("${item.image}")` } : undefined}
                   >
                     {item.featured && (
@@ -272,10 +272,10 @@ export default async function Home() {
               <Image
                 className="brand-logo"
                 src={logo.url}
-                alt=""
+                alt={`${cafeName} logo`}
                 width={48}
                 height={48}
-                unoptimized
+                preload
               />
             )}
             <span className="wordmark-text">{cafeName}</span>
@@ -308,7 +308,6 @@ export default async function Home() {
                   fill
                   sizes="(max-width: 600px) 280px, 360px"
                   preload
-                  unoptimized
                 />
                 {cafeInfo?.hours.length ? <CafeStatus hours={cafeInfo.hours} compact /> : null}
               </div>
