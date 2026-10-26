@@ -12,6 +12,8 @@
 
 This is your public menu and cafe information page. Customers can browse it on any phone or computer. No login is needed to view it.
 
+The website is deployed on Cloudflare Pages, connected to Sanity Studio, and configured for publishing-triggered rebuilds. The current published menu is demo content and must not be treated as the cafe's confirmed final menu until the owner approves it.
+
 ---
 
 ## Your Content Editor (Sanity Studio)
@@ -94,6 +96,8 @@ Publishing in Sanity Studio automatically triggers a rebuild of the live website
 
 If you unpublish or delete content, the site rebuilds and that content is removed — also within a few minutes.
 
+Before publishing an update, review it in the Studio preview and confirm that names, prices, photos, availability, hours, location, and public contact links are approved. Updates affect every customer immediately after the deployment succeeds.
+
 ## Add or Update Social Links
 
 In **Cafe information**, enter the cafe's public Facebook, Instagram, and TikTok page URLs. Publish the document for the icon-and-name links to appear under **"Say hello"** on the website. Leave a field empty if the cafe does not use that platform.
@@ -135,7 +139,10 @@ Reach out before making any changes to Cloudflare, GitHub, or Sanity project set
 
 ## Important Reminders
 
+- The live menu currently contains clearly labeled demo content. Replace it with cafe-approved production content before public launch.
+- The latest local Studio schema has not yet been deployed to the hosted Studio. Contact the developer before expecting newly added fields to appear at the hosted Studio URL.
 - **Do not publish personal, private, or internal documents** to the Studio. Only approved public menu and cafe information should be published.
 - **All prices, photos, and descriptions on the site are visible to the public** the moment they are published.
 - The website currently uses **free hosting plans** from Sanity and Cloudflare. There is no monthly fee at current usage levels. If limits change in future, we will discuss before any costs are incurred.
+- Before final handoff, the cafe owner should confirm account ownership and recovery access for Sanity, Cloudflare, and GitHub, plus the approved footer copyright text.
 - A **custom domain** (e.g. `heycafe.com`) is optional and not included in the current setup. It can be added later if desired.

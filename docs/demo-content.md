@@ -1,7 +1,9 @@
 # Hey! Cafe — Demo Content for Client Preview
 
-This file contains sample menu data to populate the Studio for client demonstration.
-All items are clearly fictional placeholders. Replace with real cafe content once the owner provides approved data.
+This file contains the sample menu data used to populate the Studio for client demonstration.
+The four categories and 16 menu items are currently published as clearly fictional preview content and may be replaced with approved cafe data after owner review.
+
+> The live-site label and Studio preview distinguish this demo content from confirmed cafe information. Do not present these names, prices, descriptions, or photos as the cafe's final offerings.
 
 ---
 
@@ -144,6 +146,9 @@ If nothing shows yet, wait another minute and do a hard refresh (`Ctrl + Shift +
 ## Notes
 
 - All content in this file is **fictional demo data** for testing and client preview only.
-- Do **not** present these prices or items as confirmed Hey! Cafe offerings.
-- Once the cafe owner supplies and approves real content, replace everything with the actual menu, prices, photos, and descriptions.
-- Delete this file or archive it after real content has been entered.
+- The demo is already suitable for reviewing the website layout, Sanity publishing flow, and automatic deployment behavior.
+- Do **not** present these names, prices, descriptions, or photos as confirmed Hey! Cafe offerings.
+- Once the cafe owner supplies and approves real content, replace every demo category, item, description, price, and photo in Sanity production.
+- Confirm the cafe name, logo, hero copy, section headings, copyright text, address, hours, contact details, and social links before launch.
+- Verify the final Espresso slug in Sanity is `espresso`; the website retains compatibility with the legacy `espreso` slug until the CMS data is corrected.
+- Archive this guide after approved production content has been entered.
