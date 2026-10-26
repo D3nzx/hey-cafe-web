@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "node -e \"require('node:fs').rmSync('.next/cache/fetch-cache',{recursive:true,force:true})\" && next build",
+    "build": "next build",
     "studio": "cd studio && node ../node_modules/sanity/bin/sanity dev --port 3333",
     "lint": "eslint",
     "test": "vitest",

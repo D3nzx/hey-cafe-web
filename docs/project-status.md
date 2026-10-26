@@ -1,7 +1,7 @@
 # Hey! Cafe Project Status
 
-**Date and time:** 2026-10-26 01:55 AM TST
-**Project stage:** Core code-quality improvements and static-export image compatibility are complete; final Studio schema deployment, approved content, and production launch checks remain.
+**Date and time:** 2026-10-26 01:12 PM TST
+**Project stage:** Final production-readiness review is in progress; the static build and local deployment flow are validated, and only final content approval, hosted Studio deployment, and launch checks remain.
 
 ## Done
 
@@ -78,6 +78,7 @@
 - Defined `RootLayout` props using React's `PropsWithChildren`; `npx tsc --noEmit` reports no TypeScript errors.
 - Removed `styled-components` from the root project's direct devDependencies while retaining it as Sanity's required peer dependency and in `studio/package.json`.
 - Verified the production build and all 15 Vitest tests pass after the recent changes.
+- Removed the manual cache-clearing step from the production build script and verified `npm run build` succeeds without errors.
 
 ## Deferred Until Production Readiness
 
